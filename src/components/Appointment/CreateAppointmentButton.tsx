@@ -1,16 +1,21 @@
+"use client";
 import React, { useContext } from "react";
 import plusImg from "@/assets/plus.svg";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 // import GlobalContext from "../context/GlobalContext";
 export default function CreateEventButton() {
-//   const { setShowEventModal } = useContext(GlobalContext);
+  const { roomId } = useParams();
+  //   const { setShowEventModal } = useContext(GlobalContext);
   return (
-    <button
-    //   onClick={() => setShowEventModal(true)}
-      className="border p-2 rounded-full flex items-center shadow-md hover:shadow-2xl"
-    >
-      <Image src={plusImg} alt="create_event" className="w-7 h-7"/>
-      <span className="pl-3 pr-7"> Create</span>
-    </button>
+    <div className="flex justify-between items-center">
+      <p className="font-bold">{roomId}</p>
+      <button
+        //   onClick={() => setShowEventModal(true)}
+        className="border bg-accent  my-2 rounded-full flex items-center shadow-md hover:shadow-2xl"
+      >
+        <span className="text-white p-2"> Get Appointment</span>
+      </button>
+    </div>
   );
 }
