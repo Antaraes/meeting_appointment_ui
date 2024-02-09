@@ -3,7 +3,7 @@ import HeaderComponent from "../common/HeaderComponent";
 import TextComponent from "../common/TextComponent";
 import TableComponent from "../common/TableComponent";
 import MobileHomeTable from "../common/MobileHomeTable";
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from "react-icons/fa";
 
 const HomePageTable = () => {
   const headerTable = [
@@ -76,31 +76,22 @@ const HomePageTable = () => {
     <div className="mx-auto w-auto p-0">
       <div className="m-0 p-0 hidden md:block">
         <div className="flex px-10 mx-auto justify-between">
-          <HeaderComponent
-            title="Appointment"
-            className="text-black font-bold"
-          />
-          <TextComponent
-            type="text"
-            className="w-[150px] px-5 py-1"
-            placeholder="search"
-          />
+          <HeaderComponent title="Appointment" className="text-black font-bold" />
+          <TextComponent type="text" className="w-[150px] px-5 py-1" placeholder="search" />
         </div>
         <TableComponent header={headerTable} tableData={dataTable} />
       </div>
       <div className="mx-auto p-0 md:hidden">
-      <div className="flex px-5 justify-between mb-3">
-          <HeaderComponent
-            title="Appointment"
-            className="text-black font-bold"
-          />
+        <div className="flex px-5 justify-between mb-3">
+          <HeaderComponent title="Appointment" className="text-black font-bold" />
 
           <button className="bg-transparent text-center">
-          <FaSearch size={20}/>
+            <FaSearch size={20} />
           </button>
-
         </div>
-        <MobileHomeTable tableData={dataTable}/>
+        <div className="gap-4 flex flex-col">
+          <MobileHomeTable tableData={dataTable} />
+        </div>
       </div>
     </div>
   );
