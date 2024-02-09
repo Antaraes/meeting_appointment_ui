@@ -1,37 +1,59 @@
-// CustomCalendar.js
 "use client";
-import React from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-
-const localizer = momentLocalizer(moment);
+import Calendar from "./Calendar";
+import { useEffect, useState } from "react";
+import { useAppointmentSlice } from "@/store/Appointment/zustand";
 
 const events = [
   {
-    title: "Event 1",
-    start: new Date(2024, 1, 7, 24, 0), // year, month, day, hour, minute
-    end: new Date(2024, 1, 7, 12, 0),
+    start: moment("2024-02-18T10:10:00").toDate(),
+    end: moment("2024-02-18T11:00:00").toDate(),
+    title: "MRI Registration",
+    data: {
+      type: "Reg",
+    },
   },
   {
-    title: "Event 2",
-    start: new Date(2024, 1, 7, 14, 0),
-    end: new Date(2024, 1, 7, 16, 0),
+    start: moment("2023-03-18T14:00:00").toDate(),
+    end: moment("2023-03-18T15:30:00").toDate(),
+    title: "ENT Appointment",
+    data: {
+      type: "App",
+    },
   },
 ];
 
-function CustomCalendar() {
-  return (
-    <div style={{ height: "800px" }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ margin: "50px" }}
-      />
-    </div>
-  );
-}
+const components = {
+  event: (props: any) => {
+    const eventType = props?.event?.data?.type;
+    switch (eventType) {
+      case "Reg":
+        return (
+          <div style={{ background: "yellow", color: "white", height: "100%" }}>{props.title}</div>
+        );
+      case "App":
+        return (
+          <div style={{ background: "lightgreen", color: "white", height: "100%" }}>
+            {props.title}
+          </div>
+        );
+      default:
+        return null;
+    }
+  },
+};
 
-export default CustomCalendar;
+export default function TimeLine() {
+  const { daySelectedZ } = useAppointmentSlice();
+  const [defaultDate, setDefaultDate] = useState(new Date());
+  useEffect(() => {
+    // Update defaultDate when daySelectedZ changes
+    if (daySelectedZ) {
+      const year = daySelectedZ.year();
+      const monthIndex = daySelectedZ.month();
+      const dayOfMonth = daySelectedZ.date();
+      setDefaultDate(new Date(year, monthIndex, dayOfMonth));
+    }
+  }, [daySelectedZ]);
+  return <Calendar defaultDate={defaultDate} events={events} components={components} />;
+}
