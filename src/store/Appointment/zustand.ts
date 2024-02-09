@@ -10,7 +10,7 @@ type Store = {
 type Actions = {
   setMonthIndexZ: (monthIndex: number) => void;
   setSmallCalendarMonthZ: (smallCalendarMonth: number) => void;
-  setDaySelectedZ: (daySelected: number) => void;
+  setDaySelectedZ: (daySelected: any) => void;
 };
 
 export const useAppointmentSlice = create<Store & Actions>((set) => ({
@@ -18,7 +18,6 @@ export const useAppointmentSlice = create<Store & Actions>((set) => ({
   smallCalendarMonthZ: null,
   daySelectedZ: dayjs(),
   setMonthIndexZ: (monthIndexZ: number) => set({ monthIndexZ }),
-  setSmallCalendarMonthZ: (smallCalendarMonthZ: any) =>
-    set({ smallCalendarMonthZ }),
+  setSmallCalendarMonthZ: (smallCalendarMonthZ: any) => set({ smallCalendarMonthZ }),
   setDaySelectedZ: (daySelectedZ: any) => set({ daySelectedZ }),
 }));

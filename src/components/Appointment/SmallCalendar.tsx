@@ -41,7 +41,7 @@ export default function SmallCalendar() {
     } else if (currDay === slcDay) {
       return "bg-accent/50 rounded-full text-blue-600 font-bold";
     } else if (isWeekend) {
-      return "text-gray-400 cursor-not-allowed";
+      return "text-gray-600 cursor-not-allowed";
     } else {
       return "";
     }
@@ -78,9 +78,11 @@ export default function SmallCalendar() {
               <button
                 key={idx}
                 onClick={() => {
-                  setSmallCalendarMonthZ(currentMonthIdx);
-                  setDaySelectedZ(day);
-                  console.log("Day clicked:", day.format("YYYY-MM-DD"));
+                  if (!getDayClass(day).includes("cursor-not-allowed")) {
+                    setSmallCalendarMonthZ(currentMonthIdx);
+                    setDaySelectedZ(day);
+                    console.log("Day clicked:", day.format("YYYY-MM-DD"));
+                  }
                 }}
                 className={`py-1 w-full ${getDayClass(day)} text-white`}
               >
