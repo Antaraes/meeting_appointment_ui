@@ -6,6 +6,7 @@ import { useAppointmentSlice } from "@/store/Appointment/zustand";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { SCREEN_SIZE } from "@/constants/responsive";
 import dayjs from "dayjs";
+import "./TimeLine.css";
 
 const events = [
   {
@@ -26,13 +27,6 @@ const events = [
   },
 ];
 
-const components = {
-  event: (props: any) => {
-    const eventType = props?.event?.data?.type;
-    return <div className={`p-2 rounded bg-red-600 text-white`}>{props.title}</div>;
-  },
-};
-
 const TimeLine = () => {
   const { daySelectedZ, setDaySelectedZ } = useAppointmentSlice();
   const isMobile = useMediaQuery(SCREEN_SIZE);
@@ -52,11 +46,11 @@ const TimeLine = () => {
   return (
     <>
       <Calendar
-        date={new Date(daySelectedZ)}
+        date={daySelectedZ && new Date(daySelectedZ)}
+        defaultDate={new Date()}
         events={events}
         view={isMobile ? "day" : "week"}
         views={isMobile ? ["day"] : ["week"]}
-        components={components}
         onNavigate={(date) => setDaySelectedZ(dayjs(date))}
       />
     </>
