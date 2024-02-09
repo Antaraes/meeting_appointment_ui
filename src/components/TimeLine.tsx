@@ -1,8 +1,10 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Calendar from "./Calendar";
-import { useEffect, useState } from "react";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { SCREEN_SIZE } from "@/constants/responsive";
 
 const events = [
   {
@@ -43,11 +45,12 @@ const components = {
   },
 };
 
-export default function TimeLine() {
+const TimeLine = () => {
   const { daySelectedZ } = useAppointmentSlice();
+  const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
+
   useEffect(() => {
-    // Update defaultDate when daySelectedZ changes
     if (daySelectedZ) {
       const year = daySelectedZ.year();
       const monthIndex = daySelectedZ.month();
@@ -55,5 +58,18 @@ export default function TimeLine() {
       setDefaultDate(new Date(year, monthIndex, dayOfMonth));
     }
   }, [daySelectedZ]);
-  return <Calendar defaultDate={defaultDate} events={events} components={components} />;
-}
+
+  return (
+    <Calendar
+      defaultDate={defaultDate}
+      events={events}
+      view={isMobile ? "day" : "week"}
+      components={components}
+      onNavigate={(date) => {
+        setDefaultDate(date);
+      }}
+    />
+  );
+};
+
+export default TimeLine;

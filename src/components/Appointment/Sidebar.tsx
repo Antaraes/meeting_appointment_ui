@@ -3,8 +3,9 @@ import React from "react";
 import CreateAppointmentButton from "./CreateAppointmentButton";
 import SmallCalendar from "./SmallCalendar";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { SCREEN_SIZE } from "@/constants/responsive";
 export default function Sidebar({ children }: { children: React.ReactNode }) {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery(SCREEN_SIZE);
   return (
     <>
       {!isMobile ? (

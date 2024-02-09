@@ -26,7 +26,6 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
       onNavigate={handleNavigate}
       onRangeChange={handleRangeChange}
       localizer={localizer}
-      view="week"
       max={maxTime}
       min={minTime}
     />
