@@ -51,6 +51,7 @@ const TimeLine = () => {
   const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
   console.log(daySelectedZ);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     if (daySelectedZ) {
@@ -62,16 +63,16 @@ const TimeLine = () => {
   }, [daySelectedZ]);
 
   return (
-    <Calendar
-      defaultDate={defaultDate}
-      events={events}
-      view={isMobile ? "day" : "week"}
-      views={isMobile ? ["day"] : ["week"]}
-      components={components}
-      onNavigate={(date) => {
-        console.log(dayjs(date));
-      }}
-    />
+    <>
+      <Calendar
+        date={new Date(daySelectedZ)}
+        events={events}
+        view={isMobile ? "day" : "week"}
+        views={isMobile ? ["day"] : ["week"]}
+        components={components}
+        onNavigate={(date) => setDaySelectedZ(dayjs(date))}
+      />
+    </>
   );
 };
 

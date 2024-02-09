@@ -12,7 +12,6 @@ export default function Sidebar() {
     <>
       {!isMobile ? (
         <>
-          <CalendarHeader />
           <div className="flex">
             <div className="border p-5 w-1/3">
               <CreateAppointmentButton />
