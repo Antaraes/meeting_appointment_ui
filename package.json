@@ -22,6 +22,7 @@
     "react-big-calendar": "^1.9.1",
     "react-calendar": "^4.8.0",
     "react-dom": "^18",
+    "react-icons": "^5.0.1",
     "zod": "^3.22.4",
     "zustand": "^4.5.0"
   },

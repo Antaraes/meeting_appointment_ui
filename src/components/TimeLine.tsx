@@ -64,6 +64,7 @@ const TimeLine = () => {
       defaultDate={defaultDate}
       events={events}
       view={isMobile ? "day" : "week"}
+      views={isMobile ? ["day"] : ["week"]}
       components={components}
       onNavigate={(date) => {
         setDefaultDate(date);
