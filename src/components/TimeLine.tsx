@@ -9,8 +9,8 @@ import dayjs from "dayjs";
 
 const events = [
   {
-    start: moment("2024-02-18T10:10:00").toDate(),
-    end: moment("2024-02-18T11:00:00").toDate(),
+    start: moment("2024-02-08T08:10:00").toDate(),
+    end: moment("2024-02-08T17:00:00").toDate(),
     title: "MRI Registration",
     data: {
       type: "Reg",
@@ -29,20 +29,7 @@ const events = [
 const components = {
   event: (props: any) => {
     const eventType = props?.event?.data?.type;
-    switch (eventType) {
-      case "Reg":
-        return (
-          <div style={{ background: "yellow", color: "white", height: "100%" }}>{props.title}</div>
-        );
-      case "App":
-        return (
-          <div style={{ background: "lightgreen", color: "white", height: "100%" }}>
-            {props.title}
-          </div>
-        );
-      default:
-        return null;
-    }
+    return <div className={`p-2 rounded bg-red-600 text-white`}>{props.title}</div>;
   },
 };
 

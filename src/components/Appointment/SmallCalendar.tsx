@@ -23,9 +23,9 @@ export default function SmallCalendar() {
     setDaySelectedZ,
   } = useAppointmentSlice();
   useEffect(() => {
-    const nextMonthIdx = daySelectedZ.isAfter(currentMonth[currentMonth.length - 1][6])
+    const nextMonthIdx = daySelectedZ?.isAfter(currentMonth[currentMonth.length - 1][6])
       ? currentMonthIdx + 1
-      : daySelectedZ.isBefore(currentMonth[0][0])
+      : daySelectedZ?.isBefore(currentMonth[0][0])
       ? currentMonthIdx - 1
       : currentMonthIdx;
 
