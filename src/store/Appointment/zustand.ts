@@ -55,7 +55,7 @@ export const useAppointmentSlice = create<Store & Actions>((set) => {
         const nextWeekEnd = state.weekIndexZ.end.add(1, "week");
         return { weekIndexZ: { start: nextWeekStart, end: nextWeekEnd } };
       });
-    },
+    }, 
 
     setDecrementWeek: () => {
       set((state) => {
