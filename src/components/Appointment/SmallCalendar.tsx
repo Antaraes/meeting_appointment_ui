@@ -16,9 +16,9 @@ export default function SmallCalendar() {
   }, [currentMonthIdx]);
   const {
     monthIndexZ,
-    smallCalendarMonthZ,
     daySelectedZ,
     setMonthIndexZ,
+    setWeek,
     setSmallCalendarMonthZ,
     setDaySelectedZ,
   } = useAppointmentSlice();
@@ -74,6 +74,7 @@ export default function SmallCalendar() {
                 onClick={() => {
                   setSmallCalendarMonthZ(currentMonthIdx);
                   setDaySelectedZ(day);
+                  setWeek();
                   console.log("Day clicked:", day.format("YYYY-MM-DD"));
                 }}
                 className={`py-1 w-full ${getDayClass(day)}`}
