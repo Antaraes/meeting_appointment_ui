@@ -24,25 +24,30 @@ const TableComponent: React.FC<TableComponentProps> = ({
   tableData,
 }) => {
   return (
-    <div className="flex md:w-[650px] lg:w-[900px] xl:w-[1100px] mx-auto mt-2">
-      <table className="table-auto w-full rounded-[10px]">
+    <div className="flex w-full lg:w-5/6 mx-auto  rounded-lg mt-2 mb-20">
+      <table className="table-auto w-full border p-1">
         <thead className="bg-secondary text-text-white border-none">
           <tr>
             {header.map((item) => (
-              <th key={item.id} className="px-4 py-2">
+              <th key={item.id} className="px-4 text-left py-2">
                 {item.Title}
               </th>
             ))}
+            <th className="px-4 text-left py-2"></th>
           </tr>
         </thead>
         <tbody>
           {tableData.map((item, index) => (
-            <tr key={item.id} className="">
-              <td className="px-4 py-2 text-left">{item.room}</td>
-              <td className="px-4 py-2 text-center">{item.date}</td>
-              <td className="px-4 py-2 text-center">{item.startTime}</td>
-              <td className="px-4 py-2 text-center">{item.endTime}</td>
-              <td className="px-4 py-2 text-left">{item.department}</td>
+            <tr
+              key={item.id}
+              className={` break-words text-secondary/80 ${index % 2 == 0 && "bg-gray-200/50"}`}
+            >
+              <td className="px-4 py-2 ">{item.room}</td>
+              <td className="px-4 py-2 ">{item.date}</td>
+              <td className="px-4 py-2 ">{item.startTime}</td>
+              <td className="px-4 py-2 ">{item.endTime}</td>
+              <td className="px-4 py-2 ">{item.department}</td>
+              <td className="px-4 py-2 ">Edit</td>
             </tr>
           ))}
         </tbody>
