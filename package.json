@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
     "@tanstack/react-query": "^5.18.1",
@@ -22,6 +23,8 @@
     "react-big-calendar": "^1.9.1",
     "react-calendar": "^4.8.0",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
+    "react-hot-toast": "^2.4.1",
     "zod": "^3.22.4",
     "zustand": "^4.5.0"
   },
