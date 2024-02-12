@@ -39,7 +39,7 @@ export default function AppointmentForm() {
       className="px-2 max-h-[400px] overflow-y-auto">
         <div className="flex justify-between items-center algn px-2 my-5">
           <button
-            onClick={() => modalStatusStore.setFormModal({ isOpen: false })}
+            onClick={modalStatusStore.setDefault}
             type="button"
             className="bg-gray-500 text-gray-50 p-2 rounded-md"
           >

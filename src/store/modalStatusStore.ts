@@ -1,24 +1,16 @@
 import { create } from "zustand";
 
-type FormModal = {
+type Modal = {
     isOpen: boolean;
     Modal: any;
 };
 
-type ConfirmModal = {
-    isOpen: boolean;
-    message: string;
-    subFn: any;
-};
-
 type State = {
-    formModal: FormModal;
-    confirmModal: ConfirmModal;
+    formModal: Modal;
 };
 
 type Actions = {
-    setFormModal: (value: Partial<FormModal>) => void;
-    setConfirmModalOpen: (value: ConfirmModal) => void;
+    setModal: (value: Partial<Modal>) => void;
     setDefault: () => void;
 };
 
@@ -26,36 +18,24 @@ export const useModalStatusStore = create<State & Actions>(
     (set) => ({
         formModal: {
             isOpen: false,
-            header: "",
             Modal: undefined,
-            subFn: undefined
         },
         confirmModal: {
             isOpen: false,
             message: "",
             subFn: undefined
         },
-        setFormModal: (value) =>
+        setModal: (value) =>
             set((state: State) => ({
                 ...state,
                 formModal: { ...state.formModal, ...value },
-            })),
-        setConfirmModalOpen: (value) =>
-            set((state: State) => ({
-                ...state,
-                confirmModal: { ...state.confirmModal, ...value },
             })),
         setDefault: () => {
             set({
                 formModal: {
                     isOpen: false,
                     Modal: undefined,
-                },
-                confirmModal: {
-                    isOpen: false,
-                    message: "",
-                    subFn: undefined
-                },
+                }
             });
         }
     })

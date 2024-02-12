@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Provider from "@/components/providers/Provider";
-import FormModal from "@/components/Modals/FormModal";
+import Modal from "@/components/Modals/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-background text-text-black`}>
         <Provider>{children}</Provider>
-        <FormModal header={undefined} Modal={undefined} subFn={undefined}/>
+        <Modal/>
       </body>
     </html>
   );
