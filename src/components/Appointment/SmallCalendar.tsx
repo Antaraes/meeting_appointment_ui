@@ -22,6 +22,15 @@ export default function SmallCalendar() {
     setSmallCalendarMonthZ,
     setDaySelectedZ,
   } = useAppointmentSlice();
+  useEffect(() => {
+    const nextMonthIdx = daySelectedZ?.isAfter(currentMonth[currentMonth.length - 1][6])
+      ? currentMonthIdx + 1
+      : daySelectedZ?.isBefore(currentMonth[0][0])
+      ? currentMonthIdx - 1
+      : currentMonthIdx;
+
+    setMonthIndexZ(nextMonthIdx);
+  }, [daySelectedZ]);
 
   useEffect(() => {
     setCurrentMonthIdx(monthIndexZ);
@@ -41,7 +50,7 @@ export default function SmallCalendar() {
     } else if (currDay === slcDay) {
       return "bg-accent/50 rounded-full text-blue-600 font-bold";
     } else if (isWeekend) {
-      return "text-gray-400 cursor-not-allowed";
+      return "text-gray-600 cursor-not-allowed";
     } else {
       return "";
     }
@@ -78,10 +87,12 @@ export default function SmallCalendar() {
               <button
                 key={idx}
                 onClick={() => {
-                  setSmallCalendarMonthZ(currentMonthIdx);
-                  setDaySelectedZ(day);
-                  setWeek();
-                  console.log("Day clicked:", day.format("YYYY-MM-DD"));
+                  if (!getDayClass(day).includes("cursor-not-allowed")) {
+                    setSmallCalendarMonthZ(currentMonthIdx);
+                    setDaySelectedZ(day);
+                    setWeek();
+                    console.log("Day clicked:", day.format("YYYY-MM-DD"));
+                  }
                 }}
                 className={`py-1 w-full ${getDayClass(day)} text-white`}
               >

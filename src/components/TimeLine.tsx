@@ -5,11 +5,13 @@ import Calendar from "./Calendar";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { SCREEN_SIZE } from "@/constants/responsive";
+import dayjs from "dayjs";
+import "./TimeLine.css";
 
 const events = [
   {
-    start: moment("2024-02-18T10:10:00").toDate(),
-    end: moment("2024-02-18T11:00:00").toDate(),
+    start: moment("2024-02-08T08:10:00").toDate(),
+    end: moment("2024-02-08T17:00:00").toDate(),
     title: "MRI Registration",
     data: {
       type: "Reg",
@@ -25,30 +27,12 @@ const events = [
   },
 ];
 
-const components = {
-  event: (props: any) => {
-    const eventType = props?.event?.data?.type;
-    switch (eventType) {
-      case "Reg":
-        return (
-          <div style={{ background: "yellow", color: "white", height: "100%" }}>{props.title}</div>
-        );
-      case "App":
-        return (
-          <div style={{ background: "lightgreen", color: "white", height: "100%" }}>
-            {props.title}
-          </div>
-        );
-      default:
-        return null;
-    }
-  },
-};
-
 const TimeLine = () => {
-  const { daySelectedZ } = useAppointmentSlice();
+  const { daySelectedZ, setDaySelectedZ } = useAppointmentSlice();
   const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
+  console.log(daySelectedZ);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     if (daySelectedZ) {
@@ -60,16 +44,16 @@ const TimeLine = () => {
   }, [daySelectedZ]);
 
   return (
-    <Calendar
-      defaultDate={defaultDate}
-      events={events}
-      view={isMobile ? "day" : "week"}
-      views={isMobile ? ["day"] : ["week"]}
-      components={components}
-      onNavigate={(date) => {
-        setDefaultDate(date);
-      }}
-    />
+    <>
+      <Calendar
+        date={daySelectedZ && new Date(daySelectedZ)}
+        defaultDate={new Date()}
+        events={events}
+        view={isMobile ? "day" : "week"}
+        views={isMobile ? ["day"] : ["week"]}
+        onNavigate={(date) => setDaySelectedZ(dayjs(date))}
+      />
+    </>
   );
 };
 

@@ -12,13 +12,12 @@ export default function Sidebar() {
     <>
       {!isMobile ? (
         <>
-          <CalendarHeader />
           <div className="flex">
             <div className="border p-5 w-1/3">
               <CreateAppointmentButton />
               <SmallCalendar />
             </div>
-            <div className="w-full">
+            <div className="w-full mt-5">
               <TimeLine />
             </div>
           </div>
@@ -28,7 +27,7 @@ export default function Sidebar() {
           <div className=" mx-5 ">
             <CreateAppointmentButton />
             <SmallCalendar />
-            <div>
+            <div className="mt-5">
               <TimeLine />
             </div>
           </div>
