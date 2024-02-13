@@ -6,22 +6,13 @@ export default function Home() {
   return (
     <div>
       <div className=" pt-5 px-5 md:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 pb-10 border-b border-secondary">
-          <div className="m-auto">
-            <RoomCard />
-          </div>
-          <div className="m-auto">
-            <RoomCard />
-          </div>
-          <div className="m-auto">
-            <RoomCard />
-          </div>
-          <div className="m-auto">
-            <RoomCard />
-          </div>
+        <div className="grid grid-cols-1 min-[637px]:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-2 pb-10 border-b border-secondary/30">
+          {Array.from({ length: 4 }, (_, index) => (
+            <RoomCard key={index} />
+          ))}
         </div>
 
-        <div className="mt-5 grid grid-cols-1">
+        <div className="mt-5">
           <HomePageTable />
         </div>
       </div>

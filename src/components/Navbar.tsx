@@ -10,7 +10,7 @@ const Navbar = () => {
             <div>
               <h1 className="text-4xl font-signature ml-2">
                 <a
-                  className="link-underline link-underline-black text-white"
+                  className="link-underline link-underline-black text-white font-bold"
                   href=""
                   target="_blank"
                   rel="noreferrer"
