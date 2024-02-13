@@ -1,5 +1,5 @@
 import React from "react";
-
+import { FaEdit } from "react-icons/fa";
 type Header = {
   id: number;
   Title: string;
@@ -47,7 +47,11 @@ const TableComponent: React.FC<TableComponentProps> = ({
               <td className="px-4 py-2 ">{item.startTime}</td>
               <td className="px-4 py-2 ">{item.endTime}</td>
               <td className="px-4 py-2 ">{item.department}</td>
-              <td className="px-4 py-2 ">Edit</td>
+              <td className="px-4 py-2 ">
+                <button className=" hover:text-secondary transition-all duration-300 ease-in-out">
+                  <FaEdit className=" " size={20} />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

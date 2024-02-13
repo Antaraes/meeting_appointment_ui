@@ -2,7 +2,7 @@ import React from "react";
 
 export default function MobileHomeTable({ tableData }: any) {
   return (
-    <div className="gap-4 grid grid-cols-1 sm:grid-cols-2">
+    <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 mb-10">
       {tableData.map((data: any) => (
         <div className="card w-auto my-4" key={data.id}>
           <div className="flex items-center justify-between">
