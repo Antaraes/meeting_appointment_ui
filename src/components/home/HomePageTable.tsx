@@ -36,7 +36,7 @@ const HomePageTable = () => {
       date: "2021-01-01",
       startTime: "10:00",
       endTime: "11:00",
-      department: "Pending",
+      department: "Banking",
     },
     {
       id: 2,
@@ -44,7 +44,7 @@ const HomePageTable = () => {
       date: "2021-01-01",
       startTime: "10:00",
       endTime: "11:00",
-      department: "Pending",
+      department: "Banking",
     },
     {
       id: 3,
@@ -52,7 +52,7 @@ const HomePageTable = () => {
       date: "2021-01-01",
       startTime: "10:00",
       endTime: "11:00",
-      department: "Pending",
+      department: "Banking",
     },
     {
       id: 4,
@@ -60,7 +60,7 @@ const HomePageTable = () => {
       date: "2021-01-01",
       startTime: "10:00",
       endTime: "11:00",
-      department: "Pending",
+      department: "Banking",
     },
     {
       id: 5,
@@ -68,30 +68,39 @@ const HomePageTable = () => {
       date: "2021-01-01",
       startTime: "10:00",
       endTime: "11:00",
-      department: "Pending",
+      department: "Banking",
     },
   ];
 
   return (
     <div className="mx-auto w-auto p-0">
-      <div className="m-0 p-0 hidden md:block">
-        <div className="flex px-10 mx-auto justify-between">
-          <HeaderComponent title="Appointment" className="text-black font-bold" />
-          <TextComponent type="text" className="w-[150px] px-5 py-1" placeholder="search" />
+      <div className="m-0 px-10 hidden md:block">
+        <div className="flex lg:w-5/6 mx-auto justify-between">
+          <HeaderComponent
+            title="Appointment"
+            className="text-secondary/90 font-bold text-xl pl-2"
+          />
+          <TextComponent
+            type="text"
+            className="w-1/4 text-secondary/70 rounded-3xl px-5 py-1 outline-none bg-secondary/10 placeholder:text-secondary/30"
+            placeholder="search"
+          />
         </div>
         <TableComponent header={headerTable} tableData={dataTable} />
       </div>
       <div className="mx-auto p-0 md:hidden">
         <div className="flex px-5 justify-between mb-3">
-          <HeaderComponent title="Appointment" className="text-black font-bold" />
+          <HeaderComponent
+            title="Appointment"
+            className="text-black font-bold"
+          />
 
           <button className="bg-transparent text-center">
             <FaSearch size={20} />
           </button>
         </div>
-        <div className="gap-4 flex flex-col">
-          <MobileHomeTable tableData={dataTable} />
-        </div>
+
+        <MobileHomeTable tableData={dataTable} />
       </div>
     </div>
   );

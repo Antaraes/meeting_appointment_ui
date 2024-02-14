@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .card {
-  @apply border-2 rounded-xl m-0 p-4 bg-background shadow-xl;
+  @apply border rounded-xl m-0 p-4 bg-white shadow-md;
 }
 
 ::-webkit-scrollbar {
