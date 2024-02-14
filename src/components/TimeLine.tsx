@@ -13,22 +13,17 @@ const events = [
     start: moment("2024-02-08T08:10:00").toDate(),
     end: moment("2024-02-08T17:00:00").toDate(),
     title: "MRI Registration",
-    data: {
-      type: "Reg",
-    },
   },
   {
     start: moment("2023-03-18T14:00:00").toDate(),
     end: moment("2023-03-18T15:30:00").toDate(),
     title: "ENT Appointment",
-    data: {
-      type: "App",
-    },
   },
 ];
 
 const TimeLine = () => {
-  const { daySelectedZ, setDaySelectedZ } = useAppointmentSlice();
+  const format = "YYYY-MM-DD";
+  const { daySelectedZ, setDaySelectedZ, appointmentByRoomId } = useAppointmentSlice();
   const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
   console.log(daySelectedZ);
@@ -42,6 +37,16 @@ const TimeLine = () => {
       setDefaultDate(new Date(year, monthIndex, dayOfMonth));
     }
   }, [daySelectedZ]);
+
+  const events = appointmentByRoomId
+    ? appointmentByRoomId.data.map((appointment) => ({
+        start: moment(
+          dayjs(appointment.date).format(format) + "T" + appointment.startTime
+        ).toDate(),
+        end: moment(dayjs(appointment.date).format(format) + "T" + appointment.endTime).toDate(),
+        title: appointment.description,
+      }))
+    : [];
 
   return (
     <>

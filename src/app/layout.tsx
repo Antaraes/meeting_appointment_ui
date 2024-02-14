@@ -4,6 +4,7 @@ import "./globals.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Provider from "@/components/providers/Provider";
 import Navbar from "@/components/Navbar";
+import Modal from "@/components/Modals/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} bg-background text-text-black`}>
         <Navbar />
         <Provider>{children}</Provider>
+        <Modal/>
       </body>
     </html>
   );

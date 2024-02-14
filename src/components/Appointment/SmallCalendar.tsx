@@ -7,6 +7,7 @@ import { getMonth } from "./Context/utils";
 import Icon from "@mdi/react";
 import { mdiChevronRight, mdiChevronLeft } from "@mdi/js";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
+import { format } from "@/utils";
 
 export default function SmallCalendar() {
   const [currentMonthIdx, setCurrentMonthIdx] = useState(dayjs().month());
@@ -14,6 +15,7 @@ export default function SmallCalendar() {
   useEffect(() => {
     setCurrentMonth(getMonth(currentMonthIdx));
   }, [currentMonthIdx]);
+
   const {
     monthIndexZ,
     daySelectedZ,
@@ -21,6 +23,7 @@ export default function SmallCalendar() {
     setWeek,
     setSmallCalendarMonthZ,
     setDaySelectedZ,
+    appointmentByRoomId,
   } = useAppointmentSlice();
   useEffect(() => {
     const nextMonthIdx = daySelectedZ?.isAfter(currentMonth[currentMonth.length - 1][6])
@@ -37,7 +40,6 @@ export default function SmallCalendar() {
   }, [monthIndexZ]);
 
   function getDayClass(day: dayjs.Dayjs) {
-    const format = "DD-MM-YY";
     const nowDay = dayjs().format(format);
     const currDay = day.format(format);
     const slcDay = (daySelectedZ as unknown as Dayjs)?.format(format);
@@ -45,14 +47,22 @@ export default function SmallCalendar() {
     // Check if the day is a weekend day (Saturday or Sunday)
     const isWeekend = day.day() === 0 || day.day() === 6;
 
+    const hasAppointments =
+      appointmentByRoomId &&
+      appointmentByRoomId.data.some(
+        (appointment: any) => dayjs(appointment.date).format(format) === currDay
+      );
+
     if (nowDay === currDay) {
       return "bg-accent rounded-full text-white";
     } else if (currDay === slcDay) {
-      return "bg-accent/50 rounded-full text-blue-600 font-bold";
+      return "bg-accent/50 rounded-full text-white  font-bold";
+    } else if (hasAppointments) {
+      return " text-red-500";
     } else if (isWeekend) {
       return "text-gray-600 cursor-not-allowed";
     } else {
-      return "";
+      return "text-white";
     }
   }
 
@@ -94,7 +104,7 @@ export default function SmallCalendar() {
                     console.log("Day clicked:", day.format("YYYY-MM-DD"));
                   }
                 }}
-                className={`py-1 w-full ${getDayClass(day)} text-white`}
+                className={`py-1 w-full ${getDayClass(day)} `}
               >
                 <span className="text-sm">{day.format("D")}</span>
               </button>
