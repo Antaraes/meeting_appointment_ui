@@ -14,8 +14,9 @@ const Page: FC<pageProps> = ({}) => {
   const { roomId } = useParams();
   const id = parseInt(roomId, 10);
   const { setAppointmentRoomById } = useAppointmentSlice();
-  const { data, refetch, isLoading, isSuccess } = useFetch("getAppointmentByRoomId", () =>
-    getAppointmentByRoomID(id)
+  const { data, refetch, isLoading, isSuccess } = useFetch(
+    "getAppointmentByRoomId",
+    () => getAppointmentByRoomID(id),
   );
 
   useEffect(() => {
