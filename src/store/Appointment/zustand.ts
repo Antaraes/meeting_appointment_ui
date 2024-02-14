@@ -8,6 +8,7 @@ type Store = {
   monthIndexZ: number;
   smallCalendarMonthZ: any;
   daySelectedZ: any;
+  appointmentByRoomId: any;
 };
 
 type Actions = {
@@ -18,6 +19,7 @@ type Actions = {
   setIncrementWeek: () => void;
   setDecrementWeek: () => void;
   setWeek: () => void;
+  setAppointmentRoomById: (data: any) => void;
 };
 
 export const useAppointmentSlice = create<Store & Actions>((set) => {
@@ -30,9 +32,11 @@ export const useAppointmentSlice = create<Store & Actions>((set) => {
     weekIndexZ: { start: startOfWeek, end: endOfWeek },
     smallCalendarMonthZ: null,
     daySelectedZ: null,
+    appointmentByRoomId: null,
 
     setWeekIndexZ: (weekIndexZ: any) => set({ weekIndexZ }),
     setMonthIndexZ: (monthIndexZ: number) => set({ monthIndexZ }),
+    setAppointmentRoomById: (data) => set({ appointmentByRoomId: data }),
 
     setWeek: () => {
       set((state) => {
