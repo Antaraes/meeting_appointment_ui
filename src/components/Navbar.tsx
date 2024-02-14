@@ -21,6 +21,11 @@ const Navbar = () => {
         </Link>
 
         <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white min-[690px]:flex">
+        <li
+            className={`${pathname === "/" ? "text-accent" : "text-text-white"}`}
+          >
+            <Link href="/" target="_blank">Visit Site</Link>
+          </li>
           <li
             className={`${pathname === "/dashboard" ? "text-accent" : "text-text-white"}`}
           >
