@@ -6,13 +6,9 @@ import { Room } from "@/types/room";
 import React from "react";
 
 const page = () => {
-  const { data, error, isLoading } = useFetch("room", getAllRooms);
+  const { data, error, isLoading, refetch } = useFetch("room", getAllRooms);
   if (isLoading) {
     return <h1>Loading</h1>;
-  }
-
-  if (error) {
-    console.log("error---", error);
   }
 
   return (

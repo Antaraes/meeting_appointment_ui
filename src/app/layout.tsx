@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Provider from "@/components/providers/Provider";
 import Navbar from "@/components/Navbar";
 import Modal from "@/components/Modals/Modal";
+import AppointmentForm from "@/components/Form/AppointmentForm";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-background text-text-black overflow-x-hidden`}
+        className={`${inter.className} overflow-x-hidden bg-background text-text-black`}
       >
         <Navbar />
-        <Provider>{children}</Provider>
-        <Modal/>
+        <Provider>
+          {children}
+          <Modal />
+        </Provider>
       </body>
     </html>
   );

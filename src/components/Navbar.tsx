@@ -69,21 +69,29 @@ const Navbar = () => {
               onClick={() => setShouldSidebarOpen(false)}
             />
             <ul className="mr-5 font-medium text-text-white">
-              <li className="mt-3 text-accent">
+              <li
+                className={`${pathname === "/dashboard" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
                 <Link href="/dashboard">Dashboard</Link>
               </li>
-              <li className="mt-3">
-                <Link href="/dashboard/departments">Appointments</Link>
+              <li
+                className={`${pathname === "/dashboard/appointment" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
+                <Link href="/dashboard/appointment">Appointments</Link>
               </li>
-              <li className="mt-3">
+              <li
+                className={`${pathname === "/dashboard/rooms" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
                 <Link href="/dashboard/rooms">Rooms</Link>
               </li>
-              <li className="mt-3">
+              <li
+                className={`${pathname === "/dashboard/departments" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
                 <Link href="/dashboard/departments">Departments</Link>
               </li>
             </ul>
           </div>
-          <button className="w-3/5 rounded-3xl bg-accent p-2 font-bold text-text-white">
+          <button className="w-3/5 rounded-3xl bg-accent p-2 text-sm font-bold text-text-white">
             Logout
           </button>
         </div>

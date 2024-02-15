@@ -1,8 +1,8 @@
 export type Room = {
-  id: number;
+  id?: number;
   name: string;
   description: string;
-  isDeleted: boolean | null;
-  createdAt: string;
-  updatedAt: string;
+  isDeleted?: boolean | null;
+  createdAt?: string;
+  updatedAt?: string;
 };

@@ -17,7 +17,10 @@ const AdminRoom: React.FC<{ room: Room }> = ({ room }) => {
       <div className="my-auto flex justify-end">
         <FaEdit
           onClick={() =>
-            modalStatusStore.setModal({ isOpen: true, Modal: RoomForm })
+            modalStatusStore.setModal({
+              isOpen: true,
+              Modal: () => <RoomForm room={room} isCreating={false} />,
+            })
           }
           size={18}
           className="cursor-pointer text-secondary/70"
