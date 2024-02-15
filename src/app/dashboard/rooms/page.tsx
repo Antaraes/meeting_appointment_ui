@@ -27,10 +27,9 @@ const page = () => {
         </button>
       </div>
       <div className="mb-5 grid gap-6 px-8 py-5 min-[400px]:grid-cols-2 min-[642px]:grid-cols-3 min-[821px]:grid-cols-4 min-[1000px]:grid-cols-5 lg:px-16">
-        {data &&
-          data.data.map((room: Room) => (
-            <AdminRoom key={room.id} room={room} />
-          ))}
+        {data?.data?.map((room: Room) => (
+          <AdminRoom key={room.id} room={room} />
+        ))}
       </div>
     </>
   );
