@@ -22,13 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-background text-text-black overflow-x-hidden`}
+        className={`${inter.className} overflow-x-hidden bg-background text-text-black`}
       >
         <Navbar />
         <Provider>
           {children}
-        <Modal/>
-          </Provider>
+          <Modal />
+        </Provider>
       </body>
     </html>
   );

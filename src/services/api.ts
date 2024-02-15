@@ -1,3 +1,4 @@
+import { Room } from "@/types/room";
 import API from "./interceptor";
 
 //Appointments
@@ -11,5 +12,10 @@ export const comparePassCode = ({ data, id }) =>
 //department
 export const getDepartment = () => API.get("/department");
 
-//Room
-export const getRoom = () => API.get("/room");
+//Rooms
+export const getAllRooms = () => API.get("/room");
+export const addRoom = (roomData: Room) => API.post("/room", roomData);
+export const updateRoom = (id: number, roomData: Room) =>
+  API.patch(`room/${id}`, roomData);
+export const getRoomById = (id: number) => API.get(`/room/${id}`);
+

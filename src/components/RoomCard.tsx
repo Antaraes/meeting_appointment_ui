@@ -4,27 +4,30 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function RoomCard() {
   return (
-    <div className="card w-full min-w-72 hover:-translate-y-1 transition-all duration-300 ease-in-out">
-      <div className="m-0 p-0 hidden md:block">
-        <h3 className="text-lg font-bold text-center text-secondary/80">
+    <div className="card w-full min-w-72 transition-all duration-300 ease-in-out hover:-translate-y-1">
+      <div className="m-0 hidden p-0 md:block">
+        <h3 className="text-center text-lg font-bold text-secondary/80">
           Room One
         </h3>
 
-        <p className="text-secondary/60 text-center mt-3">Meeting Room 1</p>
+        <p className="mt-3 text-center text-secondary/60">Meeting Room 1</p>
         <Link
           href="/1"
-          className="mt-3 hover:bg-[#1b294b] text-center bg-secondary text-text-white mx-auto p-2 text-sm rounded-3xl block w-1/3"
+          className="mx-auto mt-3 block w-1/3 rounded-3xl bg-secondary p-2 text-center text-sm text-text-white hover:bg-[#1b294b]"
         >
           Schdule
         </Link>
       </div>
 
-      <div className="m-0 w-full p-0 md:hidden flex justify-between items-center">
+      <Link
+        href="/1"
+        className="m-0 flex w-full items-center justify-between p-0 md:hidden"
+      >
         <h3 className="text-base font-bold">Room One</h3>
         <h3>
           <FaArrowRight />
         </h3>
-      </div>
+      </Link>
     </div>
   );
 }
