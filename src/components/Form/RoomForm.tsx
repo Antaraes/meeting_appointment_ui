@@ -55,6 +55,8 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
   const onSubmit: SubmitHandler<Room> = () => {
     const formData = getValues();
     if (isCreating) {
+      console.log("create");
+      mutate({ ...formData });
       return;
     }
     mutate({
@@ -69,7 +71,7 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3 className="text-2xl font-semibold tracking-tight text-secondary/80">
-        Update Room
+        {isCreating ? "Create Room" : "Update Room"}
       </h3>
 
       <div className="mt-10 grid grid-cols-2 gap-y-10">
@@ -120,7 +122,7 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
           type="submit"
           className="rounded-2xl bg-accent  px-4 py-2 text-sm font-semibold text-text-white sm:text-base"
         >
-          Update
+          {isCreating ? "Create" : "Update"}
         </button>
       </div>
     </form>
