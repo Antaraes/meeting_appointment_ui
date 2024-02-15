@@ -35,10 +35,21 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     mutationFn: (data) =>
       comparePassCode({ data, id: event.appointmentData.id }),
     onSuccess: () => {
-      modalStatusStore.setModal({
-        isOpen: true,
-        Modal: AddAppointment,
-      });
+      toast((t) => (
+        <span>
+          {/* Custom and <b>bold</b> */}
+          <button
+            onClick={() => {
+              modalStatusStore.setModal({
+                isOpen: true,
+                Modal: AddAppointment,
+              });
+            }}
+          >
+            Edit
+          </button>
+        </span>
+      ));
 
       toast.success("Authorized successfully into Appointment");
     },
