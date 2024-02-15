@@ -7,6 +7,9 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { SCREEN_SIZE } from "@/constants/responsive";
 import dayjs from "dayjs";
 import "./TimeLine.css";
+import AddAppointment from "@/components/Form/AppointmentForm";
+import { useModalStatusStore } from "@/store/modalStatusStore";
+import PasscodeForm from "./Form/PasscodeForm";
 
 const events = [
   {
@@ -23,9 +26,11 @@ const events = [
 
 const TimeLine = () => {
   const format = "YYYY-MM-DD";
-  const { daySelectedZ, setDaySelectedZ, appointmentByRoomId } = useAppointmentSlice();
+  const { daySelectedZ, setDaySelectedZ, appointmentByRoomId } =
+    useAppointmentSlice();
   const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
+  const modalStatusStore = useModalStatusStore();
   console.log(daySelectedZ);
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -41,12 +46,22 @@ const TimeLine = () => {
   const events = appointmentByRoomId
     ? appointmentByRoomId.data.map((appointment) => ({
         start: moment(
-          dayjs(appointment.date).format(format) + "T" + appointment.startTime
+          dayjs(appointment.date).format(format) + "T" + appointment.startTime,
         ).toDate(),
-        end: moment(dayjs(appointment.date).format(format) + "T" + appointment.endTime).toDate(),
+        end: moment(
+          dayjs(appointment.date).format(format) + "T" + appointment.endTime,
+        ).toDate(),
         title: appointment.description,
+        appointmentData: appointment,
       }))
     : [];
+  const handleEventClick = (event) => {
+    // Implement your logic to open the modal with the event data
+    modalStatusStore.setModal({
+      isOpen: true,
+      Modal: () => <PasscodeForm event={event} />,
+    });
+  };
 
   return (
     <>
@@ -57,6 +72,7 @@ const TimeLine = () => {
         view={isMobile ? "day" : "week"}
         views={isMobile ? ["day"] : ["week"]}
         onNavigate={(date) => setDaySelectedZ(dayjs(date))}
+        onSelectEvent={handleEventClick}
       />
     </>
   );

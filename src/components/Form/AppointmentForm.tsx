@@ -5,6 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
+import { useAppointmentMutation } from "@/hooks/useAppointment";
+import { createAppointment, getDepartment, getRoom } from "@/services/api";
+import toast from "react-hot-toast";
+import { format } from "date-fns"; // Import format function from date-fns library
+import { enGB } from "date-fns/locale";
+import useFetch from "@/hooks/useFetch";
+import dayjs from "dayjs";
 interface IFormInput {
   departmentId: string;
   roomId: string;
@@ -13,6 +20,7 @@ interface IFormInput {
   date: Date;
   startTime: string;
   endTime: string;
+  code: string;
 }
 
 const getCurrentDate = () => {
@@ -31,15 +39,26 @@ const schema = z.object({
   date: z.string().min(1, { message: "Date must be filled." }),
   startTime: z.string().min(1, { message: "Start time must be filled." }),
   endTime: z.string().min(1, { message: "End time must be filled." }),
+  code: z.string().min(1, { message: "Code must be filled." }),
 });
 
 export default function AppointmentForm() {
   const modalStatusStore = useModalStatusStore();
+  const { data: department } = useFetch("department", getDepartment);
+  const { data: room } = useFetch("room", getRoom);
   const { register, handleSubmit, formState, trigger } = useForm<IFormInput>({
     resolver: zodResolver(schema),
   });
   const { appointmentByRoomId } = useAppointmentSlice();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  console.log(room);
+  const mutation = useAppointmentMutation(createAppointment);
+
+  const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
+    const formattedDate = data.date + "T00:00:00.000Z";
+    const newData = { ...data, date: formattedDate };
+    console.log(newData);
+    mutation.mutate(data);
+  };
 
   return (
     <div>
@@ -68,8 +87,11 @@ export default function AppointmentForm() {
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md "
         >
           <option value="">Select Department</option>
-          <option value="1">D-1</option>
-          <option value="2">D-2</option>
+          {department?.data.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
         </select>
         {formState.errors?.departmentId && (
           <p className="mb-5 text-red-500">
@@ -81,8 +103,11 @@ export default function AppointmentForm() {
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
-          <option value="1">R-1</option>
-          <option value="2">R-2</option>
+          {room?.data.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
         </select>
         {formState.errors?.roomId && (
           <p className="mb-5 text-red-500">
@@ -91,6 +116,7 @@ export default function AppointmentForm() {
         )}
         <input
           {...register("staffId")}
+          type="number"
           placeholder="Staff Id"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -122,7 +148,10 @@ export default function AppointmentForm() {
         )}
         <input
           type="time"
-          {...register("startTime")}
+          {...register("startTime", { required: true })}
+          min="09:00"
+          max="17:00"
+          step="600"
           placeholder="Start Time"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -135,7 +164,18 @@ export default function AppointmentForm() {
         <input
           type="time"
           {...register("endTime")}
-          placeholder="Start Time"
+          placeholder="End Time"
+          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+        />
+        {formState.errors?.endTime && (
+          <p className="mb-5 text-red-500">
+            {formState.errors?.endTime.message}
+          </p>
+        )}
+        <input
+          type="text"
+          {...register("code")}
+          placeholder="code"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
         {formState.errors?.endTime && (
