@@ -1,5 +1,7 @@
 "use client";
 
+import WorkingHourList from "@/components/admin/WorkingHourList";
+import WorkingHours from "@/components/admin/WorkingHours";
 import HomePageTable from "@/components/home/HomePageTable";
 import useFetch from "@/hooks/useFetch";
 import { getAppointmentsCount } from "@/services/api";
@@ -66,6 +68,15 @@ const page = () => {
             height={"400px"}
           />
         )}
+      </div>
+      <div className="flex flex-col md:flex-row">
+        <div className="flex-grow">
+          <WorkingHours />
+        </div>
+        <div className="h-1 bg-black md:hidden"></div> {/* Vertical divider */}
+        <div className="flex-grow">
+          <WorkingHourList />
+        </div>
       </div>
       <HomePageTable />
     </div>
