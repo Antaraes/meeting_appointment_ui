@@ -53,8 +53,9 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-h-[500px] overflow-y-auto px-2 md:max-h-[400px]"
+        className="max-h-[500px] overflow-y-auto px-2 py-4 md:max-h-[400px]"
       >
+        <p className="my-4 text-xl font-bold">Confrim Meeting Passcode</p>
         <input
           type="text"
           {...register("code")}
@@ -64,7 +65,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
         {formState.errors?.code && (
           <p className="mb-5 text-red-500">{formState.errors?.code.message}</p>
         )}
-        <div className="algn my-5 flex items-center justify-between px-2">
+        <div className="algn  flex items-center justify-between px-2">
           <button
             onClick={modalStatusStore.setDefault}
             type="button"
