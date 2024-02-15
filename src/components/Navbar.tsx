@@ -20,11 +20,13 @@ const Navbar = () => {
           ACE
         </Link>
 
-        <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white min-[690px]:flex">
-        <li
+        <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white md:flex">
+          <li
             className={`${pathname === "/" ? "text-accent" : "text-text-white"}`}
           >
-            <Link href="/" target="_blank">Visit Site</Link>
+            <Link href="/" target="_blank">
+              Visit Site
+            </Link>
           </li>
           <li
             className={`${pathname === "/dashboard" ? "text-accent" : "text-text-white"}`}
@@ -54,7 +56,7 @@ const Navbar = () => {
         </ul>
         <FaBars
           size={25}
-          className="text-accent min-[690px]:hidden"
+          className="text-accent md:hidden"
           onClick={() => setShouldSidebarOpen(true)}
         />
       </nav>

@@ -1,20 +1,28 @@
 "use client";
+import RoomForm from "@/components/Form/RoomForm";
 import AdminRoom from "@/components/admin/AdminRoom";
 import useFetch from "@/hooks/useFetch";
 import { getAllRooms } from "@/services/api";
+import { useModalStatusStore } from "@/store/modalStatusStore";
 import { Room } from "@/types/room";
 import React from "react";
 
 const page = () => {
-  const { data, error, isLoading, refetch } = useFetch("room", getAllRooms);
-  if (isLoading) {
-    return <h1>Loading</h1>;
-  }
+  const { data, error, isLoading } = useFetch("room", getAllRooms);
 
+  const modalStatusStore = useModalStatusStore();
   return (
     <>
       <div className="flex justify-end pr-9 pt-8 lg:pr-16">
-        <button className="text-text w-1/3 rounded-2xl bg-accent p-1 font-semibold text-text-white md:w-1/5 lg:w-[15%] ">
+        <button
+          onClick={() =>
+            modalStatusStore.setModal({
+              isOpen: true,
+              Modal: () => <RoomForm isCreating={true} />,
+            })
+          }
+          className="text-text w-1/3 rounded-2xl bg-accent p-1 font-semibold text-text-white md:w-1/5 lg:w-[15%] "
+        >
           Add
         </button>
       </div>
