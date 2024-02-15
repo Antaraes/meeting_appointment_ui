@@ -70,11 +70,11 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
       className="flex h-auto min-h-80 flex-col gap-2 overflow-x-hidden"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className="text-2xl font-semibold tracking-tight text-secondary/80">
+      <h3 className="mt-3 border-b border-secondary/30 pb-3 text-2xl font-semibold tracking-tight text-secondary/80">
         {isCreating ? "Create Room" : "Update Room"}
       </h3>
 
-      <div className="mt-10 grid grid-cols-2 gap-y-10">
+      <div className=" mt-10 grid grid-cols-2 gap-y-10 ">
         <label className="mx-10 inline-flex items-center bg-transparent text-start font-semibold text-secondary/80 lg:mx-16 min-[1170px]:mx-24 ">
           Name
         </label>
@@ -111,7 +111,7 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
           )}
         </div>
       </div>
-      <div className="mx-6 mb-6 mt-16 flex justify-between sm:mx-12 md:mx-16 ">
+      <div className="mx-6 mb-6 mt-16 flex justify-between gap-6  sm:justify-end ">
         <button
           onClick={() => modalStatusStore.setDefault()}
           className="rounded-2xl bg-secondary/10 px-4 py-2 text-sm font-semibold sm:text-base"
