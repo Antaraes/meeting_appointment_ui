@@ -36,7 +36,7 @@ const Navbar = () => {
           <li
             className={`${pathname === "/dashboard/appointment" ? "font-semibold text-accent" : "text-text-white"}`}
           >
-            <Link href="/dashboard/appointments">Appointments</Link>
+            <Link href="/dashboard/appointment">Appointments</Link>
           </li>
           <li
             className={`${pathname === "/dashboard/rooms" ? "font-semibold text-accent" : "text-text-white"}`}
