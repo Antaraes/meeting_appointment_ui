@@ -8,15 +8,6 @@ import { getAppointmentsCount } from "@/services/api";
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
-const data = [
-  ["Departments", "Test"],
-  ["Work", 11],
-  ["Eat", 2],
-  ["Commute", 2],
-  ["Watch TV", 2],
-  ["Sleep", 7],
-];
-
 const page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
   const [departmentPieChartData, setDepartmentPieChartData] = useState([
@@ -65,7 +56,7 @@ const page = () => {
             data={departmentPieChartData}
             options={{ title: "Appointment Count By Department" }}
             width={"100%"}
-            height={"600px"}
+            height={"400px"}
           />
         )}
         {roomPieChartData.length > 1 && (
@@ -74,7 +65,7 @@ const page = () => {
             data={roomPieChartData}
             options={{ title: "Popular Rooms" }}
             width={"100%"}
-            height={"600px"}
+            height={"400px"}
           />
         )}
       </div>

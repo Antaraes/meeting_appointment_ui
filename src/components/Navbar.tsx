@@ -22,29 +22,29 @@ const Navbar = () => {
 
         <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white md:flex">
           <li
-            className={`${pathname === "/" ? "text-accent" : "text-text-white"}`}
+            className={`${pathname === "/" ? "font-semibold text-accent" : "text-text-white"}`}
           >
             <Link href="/" target="_blank">
               Visit Site
             </Link>
           </li>
           <li
-            className={`${pathname === "/dashboard" ? "text-accent" : "text-text-white"}`}
+            className={`${pathname === "/dashboard" ? "font-semibold text-accent" : "text-text-white"}`}
           >
             <Link href="/dashboard">Dashboard</Link>
           </li>
           <li
-            className={`${pathname === "/dashboard/appointments" ? "text-accent" : "text-text-white"}`}
+            className={`${pathname === "/dashboard/appointment" ? "font-semibold text-accent" : "text-text-white"}`}
           >
-            <Link href="/dashboard/appointments">Appointments</Link>
+            <Link href="/dashboard/appointment">Appointments</Link>
           </li>
           <li
-            className={`${pathname === "/dashboard/rooms" ? "text-accent" : "text-text-white"}`}
+            className={`${pathname === "/dashboard/rooms" ? "font-semibold text-accent" : "text-text-white"}`}
           >
             <Link href="/dashboard/rooms">Rooms</Link>
           </li>
           <li
-            className={`${pathname === "/dashboard/departments" ? "text-accent" : "text-text-white"}`}
+            className={`${pathname === "/dashboard/departments" ? "font-semibold text-accent" : "text-text-white"}`}
           >
             <Link href="/dashboard/departments">Departments</Link>
           </li>
