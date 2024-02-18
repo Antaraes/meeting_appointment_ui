@@ -10,12 +10,12 @@ import { Chart } from "react-google-charts";
 
 const page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
-  const [departmentPieChartData, setDepartmentPieChartData] = useState([
-    ["Department", "DepartmentData"],
-  ]);
-  const [roomPieChartData, setRoomPieChartData] = useState([
-    ["Room", "RoomData"],
-  ]);
+  const [departmentPieChartData, setDepartmentPieChartData] = useState<
+    [string, string | number][]
+  >([["Department", "DepartmentData"]]);
+  const [roomPieChartData, setRoomPieChartData] = useState<
+    [string, string | number][]
+  >([["Room", "RoomData"]]);
   useEffect(() => {
     if (fetchedCount) {
       setDepartmentPieChartData((prevData) => [prevData[0]]);
@@ -31,7 +31,7 @@ const page = () => {
         }) => {
           setDepartmentPieChartData((prevData) => [
             ...prevData,
-            [departmentName, departmentCount],
+            [departmentName, Number(departmentCount)],
           ]);
         },
       );
@@ -40,7 +40,7 @@ const page = () => {
         ({ roomName, roomCount }: { roomName: string; roomCount: string }) => {
           setRoomPieChartData((prevData) => [
             ...prevData,
-            [roomName, roomCount],
+            [roomName, Number(roomCount)],
           ]);
         },
       );
