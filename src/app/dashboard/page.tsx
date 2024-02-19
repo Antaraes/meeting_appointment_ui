@@ -8,7 +8,7 @@ import { getAppointmentsCount } from "@/services/api";
 import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
-const page = () => {
+const Page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
   const [departmentPieChartData, setDepartmentPieChartData] = useState<
     [string, string | number][]
@@ -83,4 +83,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
