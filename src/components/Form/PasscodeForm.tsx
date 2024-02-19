@@ -1,14 +1,15 @@
 "use client";
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { comparePassCode } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import AddAppointment from "@/components/Form/AppointmentForm";
+import UpadteAppointmentForm from "./UpdateAppointmentForm";
 
 interface PasscodeFormProps {
   event: any;
@@ -23,7 +24,7 @@ const schema = z.object({
 
 const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   const modalStatusStore = useModalStatusStore();
-
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const { roomId } = useParams();
   console.log(typeof roomId);
@@ -35,28 +36,55 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     mutationFn: (data) =>
       comparePassCode({ data, id: event.appointmentData.id }),
     onSuccess: () => {
-      toast((t) => (
-        <span>
-          {/* Custom and <b>bold</b> */}
-          <button
-            onClick={() => {
-              modalStatusStore.setModal({
-                isOpen: true,
-                Modal: AddAppointment,
-              });
-            }}
-          >
-            Edit
-          </button>
-        </span>
-      ));
+      toast(
+        (t) => (
+          <div className="flex bg-white">
+            <p>Authorized successfully into Appointment</p>
+            <button
+              onClick={() => {
+                modalStatusStore.setModal({
+                  isOpen: true,
+                  Modal: () => (
+                    <UpadteAppointmentForm event={event} password={password} />
+                  ),
+                });
 
-      toast.success("Authorized successfully into Appointment");
+                toast.dismiss(t.id);
+              }}
+              type="button"
+              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-teal-200 to-lime-200 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:outline-none focus:ring-4 focus:ring-lime-200 dark:focus:ring-teal-700"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                modalStatusStore.setModal({
+                  isOpen: true,
+                  Modal: AddAppointment,
+                });
+
+                toast.dismiss(t.id);
+              }}
+              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-red-100 dark:focus:ring-red-400"
+            >
+              Extend
+            </button>
+          </div>
+        ),
+        {
+          style: {
+            borderRadius: "10px",
+            background: "transparent",
+          },
+        },
+      );
     },
   });
 
   const onSubmit: SubmitHandler<PasscodeForm> = (data: PasscodeForm) => {
     console.log(data);
+    setPassword(data.code);
     mutate(data);
   };
 
@@ -71,12 +99,12 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
           type="text"
           {...register("code")}
           placeholder="code"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+          className="mx-auto mb-5 h-[50px] w-[80%] rounded-md px-2 shadow-md"
         />
         {formState.errors?.code && (
           <p className="mb-5 text-red-500">{formState.errors?.code.message}</p>
         )}
-        <div className="algn  flex items-center justify-between px-2">
+        <div className="algn  flex items-center  justify-between px-2 md:justify-around">
           <button
             onClick={modalStatusStore.setDefault}
             type="button"
