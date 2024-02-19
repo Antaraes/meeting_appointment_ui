@@ -74,25 +74,25 @@ const HomePageTable = () => {
 
   return (
     <div className="mx-auto w-auto p-0">
-      <div className="m-0 px-10 hidden md:block">
-        <div className="flex lg:w-5/6 mx-auto justify-between">
+      <div className="m-0 hidden px-10 md:block">
+        <div className="mx-auto flex justify-between lg:w-5/6">
           <HeaderComponent
             title="Appointment"
-            className="text-secondary/90 font-bold text-xl pl-2"
+            className="pl-2 text-xl font-bold text-secondary/90"
           />
           <TextComponent
             type="text"
-            className="w-1/4 text-secondary/70 rounded-3xl px-5 py-1 outline-none bg-secondary/10 placeholder:text-secondary/30"
+            className="w-1/4 rounded-3xl bg-secondary/10 px-5 py-1 text-secondary/70 outline-none placeholder:text-secondary/30"
             placeholder="search"
           />
         </div>
         <TableComponent header={headerTable} tableData={dataTable} />
       </div>
       <div className="mx-auto p-0 md:hidden">
-        <div className="flex px-5 justify-between mb-3">
+        <div className="mb-3 flex justify-between px-5">
           <HeaderComponent
             title="Appointment"
-            className="text-black font-bold"
+            className="font-bold text-black"
           />
 
           <button className="bg-transparent text-center">
