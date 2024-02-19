@@ -12,11 +12,16 @@ interface pageProps {}
 
 const Page: FC<pageProps> = ({}) => {
   const { roomId } = useParams();
-  const id = parseInt(roomId, 10);
+
+  // Check if roomId is an array and take the first element if it is
+  const id = Array.isArray(roomId) ? roomId[0] : roomId;
+
+  // Parse id as an integer
+  const roomIdInt = parseInt(id, 10);
   const { setAppointmentRoomById } = useAppointmentSlice();
   const { data, refetch, isLoading, isSuccess } = useFetch(
     "getAppointmentByRoomId",
-    () => getAppointmentByRoomID(id),
+    () => getAppointmentByRoomID(roomIdInt),
   );
 
   useEffect(() => {
