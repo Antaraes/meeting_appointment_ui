@@ -19,17 +19,9 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import toast from "react-hot-toast";
 
-const data = [
-  ["Departments", "Test"],
-  ["Work", 11],
-  ["Eat", 2],
-  ["Commute", 2],
-  ["Watch TV", 2],
-  ["Sleep", 7],
-];
-
 const page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
+
   const [departmentPieChartData, setDepartmentPieChartData] = useState([
     ["Department", "DepartmentData"],
   ]);
@@ -43,6 +35,14 @@ const page = () => {
   });
 
   const [dataServer, setDataServer] = useState<{ data: any[] }>({ data: [] });
+
+  const [departmentPieChartData, setDepartmentPieChartData] = useState<
+    [string, string | number][]
+  >([["Department", "DepartmentData"]]);
+  const [roomPieChartData, setRoomPieChartData] = useState<
+    [string, string | number][]
+  >([["Room", "RoomData"]]);
+
   useEffect(() => {
     if (fetchedCount) {
       setDepartmentPieChartData((prevData) => [prevData[0]]);
@@ -58,7 +58,7 @@ const page = () => {
         }) => {
           setDepartmentPieChartData((prevData) => [
             ...prevData,
-            [departmentName, departmentCount],
+            [departmentName, Number(departmentCount)],
           ]);
         },
       );
@@ -67,7 +67,7 @@ const page = () => {
         ({ roomName, roomCount }: { roomName: string; roomCount: string }) => {
           setRoomPieChartData((prevData) => [
             ...prevData,
-            [roomName, roomCount],
+            [roomName, Number(roomCount)],
           ]);
         },
       );
@@ -189,7 +189,7 @@ const page = () => {
             data={departmentPieChartData}
             options={{ title: "Appointment Count By Department" }}
             width={"100%"}
-            height={"600px"}
+            height={"400px"}
           />
         )}
         {roomPieChartData.length > 1 && (
@@ -198,7 +198,7 @@ const page = () => {
             data={roomPieChartData}
             options={{ title: "Popular Rooms" }}
             width={"100%"}
-            height={"600px"}
+            height={"400px"}
           />
         )}
       </div>
