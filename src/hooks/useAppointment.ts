@@ -6,7 +6,6 @@ export const useAppointmentMutation = (mutationFn: any) => {
   const modalStatusStore = useModalStatusStore();
   return useMutation({
     mutationFn: ({ id, data }: { id?: number; data: any }) => {
-      // Check if id exists, then call the appropriate mutation function
       console.log(id, data);
       if (id !== undefined) {
         return mutationFn(id, data);
@@ -18,10 +17,10 @@ export const useAppointmentMutation = (mutationFn: any) => {
     onSuccess: async () => {
       await toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
         loading: "Saving...",
-        success: "<b>Successfully created!</b>",
-        error: "<b>Could not save.</b>",
+        success: "Successfully created!",
+        error: "Could not save.",
       });
-      modalStatusStore.setDefault;
+      modalStatusStore.setDefault();
     },
     onError: async (error: any) => {
       toast.error(error.response.data.message || "An error occurred");

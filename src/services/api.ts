@@ -12,8 +12,9 @@ export const createAppointment = (data: any) => API.post("/appointment", data);
 export const comparePassCode = ({ data, id }: { data: any; id: any }) =>
   API.post(`/appointment/${id}`, data);
 export const updateAppointment = ({ data, id }: { data: any; id: any }) =>
-  API.patch(`/appointment/${id}`, data);
 export const getAppointmentsCount = () => API.get("/appointment/count");
+export const getAppointmentById = ({ id }) =>
+  API.get(`/appointment/detail/${id}`);
 
 //Working Hours
 export const createWorkingHours = (data: working_hour) =>

@@ -60,16 +60,20 @@ export default function UpadteAppointmentForm({
   const { data: department } = useFetch("department", getDepartment);
   const { data: room } = useFetch("room", getAllRooms);
   const queryClient = useQueryClient();
-  console.log(room);
+
   const { register, handleSubmit, formState, trigger } = useForm<IFormInput>({
     resolver: zodResolver(schema),
   });
   const mutation = useMutation({
     mutationFn: (data) =>
-      updateAppointment({ data, id: event.appointmentData.id }),
+      updateAppointment({ data, id: event.appointmentData?.id || event.id }),
     onSuccess: () => {
       queryClient.invalidateQueries("getAppointmentByRoomId");
       toast.success("updated appointment");
+      modalStatusStore.setDefault();
+    },
+    onError: async (error: any) => {
+      toast.error(error.response.data.message || "An error occurred");
     },
   });
 
@@ -94,7 +98,7 @@ export default function UpadteAppointmentForm({
           >
             Cancel
           </button>
-          <h4 className="font-bold md:text-lg">New Appointment</h4>
+          <h4 className="font-bold md:text-lg">Update Appointment</h4>
           <button
             type="submit"
             className="rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
@@ -104,7 +108,9 @@ export default function UpadteAppointmentForm({
         </div>
         <select
           {...register("departmentId")}
-          defaultValue={event.appointmentData.departmentId}
+          defaultValue={
+            event.appointmentData?.departmentId || event.department?.id
+          }
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md "
         >
           <option value="">Select Department</option>
@@ -112,7 +118,10 @@ export default function UpadteAppointmentForm({
             <option
               key={item.id}
               value={item.id}
-              selected={item.id === event.appointmentData.departmentId}
+              selected={
+                item.id === event.appointmentData?.departmentId ||
+                event.department.id
+              }
             >
               {item.name}
             </option>
@@ -125,7 +134,7 @@ export default function UpadteAppointmentForm({
         )}
         <select
           {...register("roomId")}
-          defaultValue={event.appointmentData.roomId}
+          defaultValue={event.appointmentData?.roomId || event.room.id}
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
@@ -143,7 +152,7 @@ export default function UpadteAppointmentForm({
         <input
           {...register("staffId")}
           type="number"
-          defaultValue={event.appointmentData.staffId}
+          defaultValue={event.appointmentData?.staffId || event.staffId}
           placeholder="Staff Id"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -154,7 +163,7 @@ export default function UpadteAppointmentForm({
         )}
         <textarea
           {...register("description")}
-          defaultValue={event.appointmentData.description}
+          defaultValue={event.appointmentData?.description || event.description}
           placeholder="Description"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -165,9 +174,9 @@ export default function UpadteAppointmentForm({
         )}
         <input
           type="date"
-          defaultValue={dayjs(new Date(event.appointmentData.date)).format(
-            "YYYY-MM-DD",
-          )}
+          defaultValue={dayjs(
+            new Date(event.appointmentData?.date || event.date),
+          ).format("YYYY-MM-DD")}
           {...register("date")}
           placeholder="Date"
           className="mb-5  h-[50px] w-full rounded-md px-2 shadow-md"
@@ -179,7 +188,7 @@ export default function UpadteAppointmentForm({
         )}
         <input
           type="time"
-          defaultValue={event.appointmentData.startTime}
+          defaultValue={event.appointmentData?.startTime || event.startTime}
           {...register("startTime", { required: true })}
           min="09:00"
           max="17:00"
@@ -195,7 +204,7 @@ export default function UpadteAppointmentForm({
         )}
         <input
           type="time"
-          defaultValue={event.appointmentData.endTime}
+          defaultValue={event.appointmentData?.endTime || event.endTime}
           {...register("endTime")}
           placeholder="End Time"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
@@ -206,7 +215,7 @@ export default function UpadteAppointmentForm({
           </p>
         )}
         <input
-          type="text"
+          type="password"
           {...register("code")}
           defaultValue={password}
           placeholder="code"

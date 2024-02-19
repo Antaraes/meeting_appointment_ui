@@ -26,11 +26,13 @@ export default function SmallCalendar() {
     appointmentByRoomId,
   } = useAppointmentSlice();
   useEffect(() => {
-    const nextMonthIdx = daySelectedZ?.isAfter(currentMonth[currentMonth.length - 1][6])
+    const nextMonthIdx = daySelectedZ?.isAfter(
+      currentMonth[currentMonth.length - 1][6],
+    )
       ? currentMonthIdx + 1
       : daySelectedZ?.isBefore(currentMonth[0][0])
-      ? currentMonthIdx - 1
-      : currentMonthIdx;
+        ? currentMonthIdx - 1
+        : currentMonthIdx;
 
     setMonthIndexZ(nextMonthIdx);
   }, [daySelectedZ]);
@@ -40,25 +42,26 @@ export default function SmallCalendar() {
   }, [monthIndexZ]);
 
   function getDayClass(day: dayjs.Dayjs) {
-    const nowDay = dayjs().format(format);
-    const currDay = day.format(format);
-    const slcDay = (daySelectedZ as unknown as Dayjs)?.format(format);
+    const nowDay = dayjs().startOf("day");
+    const currDay = day.startOf("day");
+    const slcDay = (daySelectedZ as unknown as Dayjs)?.startOf("day");
 
-    // Check if the day is a weekend day (Saturday or Sunday)
     const isWeekend = day.day() === 0 || day.day() === 6;
 
     const hasAppointments =
       appointmentByRoomId &&
-      appointmentByRoomId.data.some(
-        (appointment: any) => dayjs(appointment.date).format(format) === currDay
+      appointmentByRoomId.data.some((appointment: any) =>
+        dayjs(appointment.date).startOf("day").isSame(currDay, "day"),
       );
 
-    if (nowDay === currDay) {
+    if (currDay.isBefore(nowDay, "day")) {
+      return "text-gray-600 cursor-not-allowed";
+    } else if (nowDay.isSame(currDay, "day")) {
       return "bg-accent rounded-full text-white";
-    } else if (currDay === slcDay) {
+    } else if (currDay.isSame(slcDay, "day")) {
       return "bg-accent/50 rounded-full text-white  font-bold";
     } else if (hasAppointments) {
-      return " text-red-500";
+      return "text-red-500";
     } else if (isWeekend) {
       return "text-gray-600 cursor-not-allowed";
     } else {
@@ -67,19 +70,19 @@ export default function SmallCalendar() {
   }
 
   return (
-    <div className="bg-secondary border rounded-xl p-4">
-      <header className="flex justify-between items-center mx-4">
-        <p className="text-white font-bold">
+    <div className="rounded-xl border bg-secondary p-4">
+      <header className="mx-4 flex items-center justify-between">
+        <p className="font-bold text-white">
           {dayjs(new Date(dayjs().year(), currentMonthIdx)).format("MMMM YYYY")}
         </p>
         <div>
           <button onClick={() => setMonthIndexZ(monthIndexZ - 1)}>
-            <span className="material-icons-outlined cursor-pointer text-white mx-2">
+            <span className="material-icons-outlined mx-2 cursor-pointer text-white">
               <Icon path={mdiChevronLeft} size={1} />
             </span>
           </button>
           <button onClick={() => setMonthIndexZ(monthIndexZ + 1)}>
-            <span className="material-icons-outlined cursor-pointer text-white mx-2">
+            <span className="material-icons-outlined mx-2 cursor-pointer text-white">
               <Icon path={mdiChevronRight} size={1} />
             </span>
           </button>
@@ -87,7 +90,7 @@ export default function SmallCalendar() {
       </header>
       <div className="grid grid-cols-7 grid-rows-6">
         {currentMonth[0].map((day, i) => (
-          <span key={i} className="text-sm py-1 text-center text-gray-600">
+          <span key={i} className="py-1 text-center text-sm text-gray-600">
             {day.format("dd").charAt(0)}
           </span>
         ))}
@@ -104,7 +107,7 @@ export default function SmallCalendar() {
                     console.log("Day clicked:", day.format("YYYY-MM-DD"));
                   }
                 }}
-                className={`py-1 w-full ${getDayClass(day)} `}
+                className={`w-full py-1 ${getDayClass(day)} `}
               >
               
                 <span className="text-sm">{day.format("D")}</span>
