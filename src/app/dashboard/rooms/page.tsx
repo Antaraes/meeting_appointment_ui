@@ -7,7 +7,7 @@ import { useModalStatusStore } from "@/store/modalStatusStore";
 import { Room } from "@/types/room";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   const { data, error, isLoading } = useFetch("room", getAllRooms);
 
   const modalStatusStore = useModalStatusStore();
@@ -35,4 +35,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
