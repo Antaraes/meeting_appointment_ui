@@ -21,13 +21,7 @@ import toast from "react-hot-toast";
 
 const page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
-
-  const [departmentPieChartData, setDepartmentPieChartData] = useState([
-    ["Department", "DepartmentData"],
-  ]);
-  const [roomPieChartData, setRoomPieChartData] = useState([
-    ["Room", "RoomData"],
-  ]);
+  console.log(fetchedCount);
   const { idZ, startTimeZ, endTimeZ, setDeleteData } = useWorkingHoursSlice();
   const [data, setData] = useState({
     startTime: "",
@@ -73,6 +67,9 @@ const page = () => {
       );
     }
   }, [fetchedCount]);
+
+  console.log("department-----", departmentPieChartData);
+  console.log("room-----", roomPieChartData);
 
   const {
     data: workingHoursData,
@@ -133,8 +130,6 @@ const page = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  console.log(data);
-
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (data.startTime === "") {
@@ -166,7 +161,6 @@ const page = () => {
       toast.error("End Time is required");
       return;
     }
-    console.log(idZ);
 
     if (idZ) {
       updateMutation.mutate({
