@@ -65,10 +65,10 @@ export default function UpadteAppointmentForm({
     resolver: zodResolver(schema),
   });
   const mutation = useMutation({
-    mutationFn: (data) =>
+    mutationFn: (data: any) =>
       updateAppointment({ data, id: event.appointmentData?.id || event.id }),
     onSuccess: () => {
-      queryClient.invalidateQueries("getAppointmentByRoomId");
+      queryClient.invalidateQueries({ queryKey: ["getAppointmentByRoomId"] });
       toast.success("updated appointment");
       modalStatusStore.setDefault();
     },
@@ -114,7 +114,7 @@ export default function UpadteAppointmentForm({
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md "
         >
           <option value="">Select Department</option>
-          {department?.data.map((item) => (
+          {department?.data.map((item: any) => (
             <option
               key={item.id}
               value={item.id}
@@ -138,7 +138,7 @@ export default function UpadteAppointmentForm({
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
-          {room?.data.map((item) => (
+          {room?.data.map((item: any) => (
             <option key={item.id} value={item.id}>
               {item.name}
             </option>

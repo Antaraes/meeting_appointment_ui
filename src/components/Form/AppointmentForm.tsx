@@ -87,7 +87,7 @@ export default function AppointmentForm() {
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md "
         >
           <option value="">Select Department</option>
-          {department?.data.map((item) => (
+          {department?.data.map((item: any) => (
             <option key={item.id} value={item.id}>
               {item.name}
             </option>
@@ -103,7 +103,7 @@ export default function AppointmentForm() {
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
-          {room?.data.map((item) => (
+          {room?.data.map((item: any) => (
             <option key={item.id} value={item.id}>
               {item.name}
             </option>

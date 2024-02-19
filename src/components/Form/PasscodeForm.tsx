@@ -85,7 +85,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     },
   });
 
-  const onSubmit: SubmitHandler<PasscodeForm> = (data: PasscodeForm) => {
+  const onSubmit: SubmitHandler<PasscodeForm> = (data: any) => {
     console.log(data);
     setPassword(data.code);
     mutate(data);

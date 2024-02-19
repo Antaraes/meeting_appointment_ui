@@ -46,9 +46,9 @@ const DepartmentForm: React.FC<{
           : "Department Updated Successfully",
       );
       modalStatusStore.setDefault();
-      queryClient.refetchQueries("departments");
+      queryClient.refetchQueries({ queryKey: ["departments"] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       if (error.response.status == 409) {
         toast.error("Department Already Exist");
         return;
