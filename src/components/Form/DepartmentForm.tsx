@@ -4,12 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import { Room as ParamRoom } from "../../types/room";
+import { Department as ParamDepartment } from "../../types/department";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addRoom, updateRoom } from "@/services/api";
+import { addDepartment, updateDepartment } from "@/services/api";
 import toast from "react-hot-toast";
 
-type Room = {
+type Department = {
   name: string;
   description: string;
 };
@@ -27,27 +27,30 @@ const schema = z.object({
     .trim(),
 });
 
-const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
-  room,
-  isCreating,
-}) => {
+const DepartmentForm: React.FC<{
+  department?: ParamDepartment;
+  isCreating: boolean;
+}> = ({ department, isCreating }) => {
   const queryClient = useQueryClient();
 
   const modalStatusStore = useModalStatusStore();
   const { mutate, isPending } = useMutation({
     mutationFn: isCreating
-      ? (data: ParamRoom) => addRoom(data)
-      : ({ id, data }: { id: number; data: ParamRoom }) => updateRoom(id, data),
+      ? (data: ParamDepartment) => addDepartment(data)
+      : ({ id, data }: { id: number; data: ParamDepartment }) =>
+          updateDepartment(id, data),
     onSuccess: () => {
       toast.success(
-        isCreating ? "Room Created Successfully" : "Room Updated Successfully",
+        isCreating
+          ? "Department Created Successfully"
+          : "Department Updated Successfully",
       );
       modalStatusStore.setDefault();
-      queryClient.refetchQueries("rooms");
+      queryClient.refetchQueries("departments");
     },
     onError: (error) => {
       if (error.response.status == 409) {
-        toast.error("Room Already Exist");
+        toast.error("Department Already Exist");
         return;
       }
 
@@ -55,19 +58,18 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
     },
   });
 
-  const { register, handleSubmit, formState, getValues } = useForm<Room>({
+  const { register, handleSubmit, formState, getValues } = useForm<Department>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Room> = () => {
+  const onSubmit: SubmitHandler<Department> = () => {
     const formData = getValues();
     if (isCreating) {
-      console.log("create");
       mutate({ ...formData });
       return;
     }
     mutate({
-      id: room?.id,
+      id: department?.id,
       data: { ...formData },
     });
   };
@@ -78,10 +80,10 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <h3 className="mt-3 border-b border-secondary/30 pb-3 text-2xl font-semibold tracking-tight text-secondary/80">
-        {isCreating ? "Create Room" : "Update Room"}
+        {isCreating ? "Create Department" : "Update Department"}
       </h3>
 
-      <div className=" mt-10 grid grid-cols-2 gap-y-10 ">
+      <div className="mt-10 grid grid-cols-2 gap-y-10">
         <label className="mx-10 inline-flex items-center bg-transparent text-start font-semibold text-secondary/80 lg:mx-16 min-[1170px]:mx-24 ">
           Name
         </label>
@@ -89,9 +91,9 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
           <input
             {...register("name")}
             type="text "
-            defaultValue={room?.name ?? ""}
-            placeholder="Room Name"
-            className="font-semiboldtext-secondary/90 w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 outline-none placeholder:font-medium placeholder:text-secondary/30"
+            defaultValue={department?.name ?? ""}
+            placeholder="Department Name"
+            className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/90 outline-none placeholder:font-medium placeholder:text-secondary/30"
           />
           {formState.errors?.name && (
             <p className="mt-2 pr-3 text-start text-xs text-red-500">
@@ -107,8 +109,8 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
           <input
             {...register("description")}
             type="text "
-            defaultValue={room?.description ?? ""}
-            placeholder="Room Description"
+            defaultValue={department?.description ?? ""}
+            placeholder="Department Description"
             className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/90 outline-none placeholder:font-medium placeholder:text-secondary/30"
           />
           {formState.errors?.description && (
@@ -120,8 +122,8 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
       </div>
       <div className="mx-6 mb-6 mt-16 flex justify-between gap-6  min-[425px]:justify-end ">
         <button
-          type="button"
           onClick={() => modalStatusStore.setDefault()}
+          type="button"
           className="rounded-2xl bg-secondary/10 px-4 py-2 text-sm font-semibold sm:text-base"
         >
           Cancel
@@ -138,4 +140,4 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
   );
 };
 
-export default RoomForm;
+export default DepartmentForm;
