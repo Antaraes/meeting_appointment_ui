@@ -106,6 +106,7 @@ export default function SmallCalendar() {
                 }}
                 className={`py-1 w-full ${getDayClass(day)} `}
               >
+              
                 <span className="text-sm">{day.format("D")}</span>
               </button>
             ))}
