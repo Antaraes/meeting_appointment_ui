@@ -9,7 +9,7 @@ export const getAllAppointment = () => API.get("/appointment");
 export const getAppointmentByRoomID = (roomId: number) =>
   API.get(`/appointment/room/${roomId}`);
 export const createAppointment = (data: any) => API.post("/appointment", data);
-export const comparePassCode = ({ data, id }: { data: any; id: any }) =>
+export const comparePassCode = ({ data, id }: { data: any; id: number }) =>
   API.post(`/appointment/${id}`, data);
 export const updateAppointment = ({ data, id }: { data: any; id: any }) =>
 export const getAppointmentsCount = () => API.get("/appointment/count");
@@ -20,10 +20,12 @@ export const getAppointmentById = ({ id }) =>
 export const createWorkingHours = (data: working_hour) =>
   API.post("/working_hour", data);
 export const getAllWorkingHours = () => API.get("/working_hour");
-export const deleteWorkingHours = (id: any) =>
+export const deleteWorkingHours = (id: number) =>
   API.delete(`/working_hour/${id}`);
-export const updateWorkingHours = (id: any, data: any) =>
+export const updateWorkingHours = (id: number, data: any) =>
   API.patch(`/working_hour/${id}`, data);
+export const activateWorkingHours = (id: number) =>
+  API.post(`working_hour/${id}`);
 
 //department
 export const getDepartment = () => API.get("/department");
