@@ -38,7 +38,7 @@ export default function Login() {
       const token = result?.data?.data?.token;
       const user = result?.data?.data?.account;
       localStorage.setItem("Appointment_auth", JSON.stringify({token , user} as any));
-      router.replace("/login-success");
+      router.replace("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
     }

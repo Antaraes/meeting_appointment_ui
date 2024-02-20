@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
-const loginAdmin = localStorage.getItem("admin");
+const loginAdmin = localStorage.getItem("Appointment_auth");
 
 const Navbar = () => {
   const [shouldSideBarOpen, setShouldSidebarOpen] = useState(false);
