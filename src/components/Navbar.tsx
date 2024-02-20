@@ -7,7 +7,7 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
 const loginAdmin =
-  typeof window !== "undefined" ? localStorage.getItem("admin") : null;
+  typeof window !== "undefined" ? localStorage.getItem("Appointment_auth") : null;
 
 const Navbar = () => {
   const [shouldSideBarOpen, setShouldSidebarOpen] = useState(false);
