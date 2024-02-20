@@ -37,39 +37,36 @@ const page = () => {
     [string, string | number][]
   >([["Room", "RoomData"]]);
 
-  // useEffect(() => {
-  //   if (fetchedCount) {
-  //     setDepartmentPieChartData((prevData) => [prevData[0]]);
-  //     setRoomPieChartData((prevData) => [prevData[0]]);
+  useEffect(() => {
+    if (fetchedCount) {
+      setDepartmentPieChartData((prevData) => [prevData[0]]);
+      setRoomPieChartData((prevData) => [prevData[0]]);
 
-  //     fetchedCount.data.departmentCount.map(
-  //       ({
-  //         departmentName,
-  //         departmentCount,
-  //       }: {
-  //         departmentName: string;
-  //         departmentCount: string;
-  //       }) => {
-  //         setDepartmentPieChartData((prevData) => [
-  //           ...prevData,
-  //           [departmentName, Number(departmentCount)],
-  //         ]);
-  //       },
-  //     );
+      fetchedCount.data.departmentCount.map(
+        ({
+          departmentName,
+          departmentCount,
+        }: {
+          departmentName: string;
+          departmentCount: string;
+        }) => {
+          setDepartmentPieChartData((prevData) => [
+            ...prevData,
+            [departmentName, Number(departmentCount)],
+          ]);
+        },
+      );
 
-  //     fetchedCount.data.roomCount.map(
-  //       ({ roomName, roomCount }: { roomName: string; roomCount: string }) => {
-  //         setRoomPieChartData((prevData) => [
-  //           ...prevData,
-  //           [roomName, Number(roomCount)],
-  //         ]);
-  //       },
-  //     );
-  //   }
-  // }, [fetchedCount]);
-
-  console.log("department-----", departmentPieChartData);
-  console.log("room-----", roomPieChartData);
+      fetchedCount.data.roomCount.map(
+        ({ roomName, roomCount }: { roomName: string; roomCount: string }) => {
+          setRoomPieChartData((prevData) => [
+            ...prevData,
+            [roomName, Number(roomCount)],
+          ]);
+        },
+      );
+    }
+  }, [fetchedCount]);
 
   const {
     data: workingHoursData,
