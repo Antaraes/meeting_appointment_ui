@@ -26,20 +26,20 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   const modalStatusStore = useModalStatusStore();
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const { roomId } = useParams();
-  console.log(typeof roomId);
+  const appointment = event.appointmentData || event;
+  console.log(appointment);
+  const { roomId } = useParams() || appointment.room.id;
   const { register, handleSubmit, formState, trigger } = useForm<PasscodeForm>({
     resolver: zodResolver(schema),
   });
 
   const { mutate } = useMutation({
-    mutationFn: (data) =>
-      comparePassCode({ data, id: event.appointmentData.id }),
+    mutationFn: (data) => comparePassCode({ data, id: appointment.id }),
     onSuccess: () => {
+      toast.success("Passcode correctly");
       toast(
         (t) => (
-          <div className="flex bg-white">
-            <p>Authorized successfully into Appointment</p>
+          <div className="flex w-[200px] gap-4">
             <button
               onClick={() => {
                 modalStatusStore.setModal({
@@ -52,7 +52,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
                 toast.dismiss(t.id);
               }}
               type="button"
-              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-teal-200 to-lime-200 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:outline-none focus:ring-4 focus:ring-lime-200 dark:focus:ring-teal-700"
+              className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
             >
               Edit
             </button>
@@ -66,7 +66,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
 
                 toast.dismiss(t.id);
               }}
-              className="mb-2 me-2 rounded-lg bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gradient-to-bl focus:outline-none focus:ring-4 focus:ring-red-100 dark:focus:ring-red-400"
+              className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
             >
               Extend
             </button>
@@ -79,6 +79,9 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
           },
         },
       );
+    },
+    onError: async (error: any) => {
+      toast.error(error.response.data.message || "An error occurred");
     },
   });
 
