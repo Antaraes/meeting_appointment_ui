@@ -27,25 +27,35 @@ const schema = z.object({
     .trim(),
 });
 
-const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boolean }> = ({
-  department,
-  isCreating,
-}) => {
+const DepartmentForm: React.FC<{
+  department?: ParamDepartment;
+  isCreating: boolean;
+}> = ({ department, isCreating }) => {
   const queryClient = useQueryClient();
 
   const modalStatusStore = useModalStatusStore();
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: isCreating
       ? (data: ParamDepartment) => addDepartment(data)
-      : ({ id, data }: { id: number; data: ParamDepartment }) => updateDepartment(id, data),
+      : ({ id, data }: { id: number; data: ParamDepartment }) =>
+          updateDepartment(id, data),
     onSuccess: () => {
       toast.success(
-        isCreating ? "Department Created Successfully" : "Department Updated Successfully",
+        isCreating
+          ? "Department Created Successfully"
+          : "Department Updated Successfully",
       );
       modalStatusStore.setDefault();
       queryClient.refetchQueries("departments");
     },
-    onError: () => toast.error("Something went wrong"),
+    onError: (error) => {
+      if (error.response.status == 409) {
+        toast.error("Department Already Exist");
+        return;
+      }
+
+      toast.error("Something went wrong");
+    },
   });
 
   const { register, handleSubmit, formState, getValues } = useForm<Department>({
@@ -55,7 +65,6 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
   const onSubmit: SubmitHandler<Department> = () => {
     const formData = getValues();
     if (isCreating) {
-      console.log("create");
       mutate({ ...formData });
       return;
     }
@@ -70,7 +79,7 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
       className="flex h-auto min-h-80 flex-col gap-2 overflow-x-hidden"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3 className="text-2xl font-semibold tracking-tight text-secondary/80">
+      <h3 className="mt-3 border-b border-secondary/30 pb-3 text-2xl font-semibold tracking-tight text-secondary/80">
         {isCreating ? "Create Department" : "Update Department"}
       </h3>
 
@@ -84,7 +93,7 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
             type="text "
             defaultValue={department?.name ?? ""}
             placeholder="Department Name"
-            className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/70 outline-none placeholder:font-medium"
+            className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/90 outline-none placeholder:font-medium placeholder:text-secondary/30"
           />
           {formState.errors?.name && (
             <p className="mt-2 pr-3 text-start text-xs text-red-500">
@@ -102,7 +111,7 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
             type="text "
             defaultValue={department?.description ?? ""}
             placeholder="Department Description"
-            className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/70 outline-none placeholder:font-medium"
+            className="w-[85%] border-b-2 border-secondary/70 bg-transparent p-1 font-semibold text-secondary/90 outline-none placeholder:font-medium placeholder:text-secondary/30"
           />
           {formState.errors?.description && (
             <p className="mt-2 pr-3 text-start text-xs text-red-500">
@@ -111,7 +120,7 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
           )}
         </div>
       </div>
-      <div className="mx-6 mb-6 mt-16 flex justify-between sm:mx-12 md:mx-16 ">
+      <div className="mx-6 mb-6 mt-16 flex justify-between gap-6  min-[425px]:justify-end ">
         <button
           onClick={() => modalStatusStore.setDefault()}
           type="button"
@@ -121,6 +130,7 @@ const DepartmentForm: React.FC<{ department?: ParamDepartment; isCreating: boole
         </button>
         <button
           type="submit"
+          disabled={isPending}
           className="rounded-2xl bg-accent  px-4 py-2 text-sm font-semibold text-text-white sm:text-base"
         >
           {isCreating ? "Create" : "Update"}

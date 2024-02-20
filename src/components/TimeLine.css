@@ -2,3 +2,7 @@
   background-color: rgb(125, 5, 5);
   cursor: none;
 }
+
+.rbc-row-content {
+  display: hidden;
+}

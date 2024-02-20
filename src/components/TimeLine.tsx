@@ -11,19 +11,6 @@ import AddAppointment from "@/components/Form/AppointmentForm";
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import PasscodeForm from "./Form/PasscodeForm";
 
-const events = [
-  {
-    start: moment("2024-02-08T08:10:00").toDate(),
-    end: moment("2024-02-08T17:00:00").toDate(),
-    title: "MRI Registration",
-  },
-  {
-    start: moment("2023-03-18T14:00:00").toDate(),
-    end: moment("2023-03-18T15:30:00").toDate(),
-    title: "ENT Appointment",
-  },
-];
-
 const TimeLine = () => {
   const format = "YYYY-MM-DD";
   const { daySelectedZ, setDaySelectedZ, appointmentByRoomId } =

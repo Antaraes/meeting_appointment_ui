@@ -6,6 +6,9 @@ import { FaBars } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
+const loginAdmin =
+  typeof window !== "undefined" ? localStorage.getItem("Appointment_auth") : null;
+
 const Navbar = () => {
   const [shouldSideBarOpen, setShouldSidebarOpen] = useState(false);
   const pathname = usePathname();
@@ -19,48 +22,54 @@ const Navbar = () => {
         >
           ACE
         </Link>
-
-        <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white md:flex">
-          <li
-            className={`${pathname === "/" ? "text-accent" : "text-text-white"}`}
-          >
-          </li>
-          <li
-            className={`${pathname === "/dashboard" ? "text-accent" : "text-text-white"}`}
-          >
-            <Link href="/dashboard">Dashboard</Link>
-          </li>
-          <li
-            className={`${pathname === "/dashboard/appointments" ? "text-accent" : "text-text-white"}`}
-          >
-            <Link href="/dashboard/appointments">Appointments</Link>
-          </li>
-          <li
-            className={`${pathname === "/dashboard/rooms" ? "text-accent" : "text-text-white"}`}
-          >
-            <Link href="/dashboard/rooms">Rooms</Link>
-          </li>
-          <li
-            className={`${pathname === "/dashboard/departments" ? "text-accent" : "text-text-white"}`}
-          >
-            <Link href="/dashboard/departments">Departments</Link>
-          </li>
-          <li
-            className={`${pathname === "/dashboard/holidays" ? "text-accent" : "text-text-white"}`}
-          >
-            <Link href="/dashboard/holidays">Holidays</Link>
-          </li>
-          <li>
-            <button className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]">
-              Logout
-            </button>
-          </li>
-        </ul>
-        <FaBars
-          size={25}
-          className="text-accent md:hidden"
-          onClick={() => setShouldSidebarOpen(true)}
-        />
+        {loginAdmin && (
+          <>
+            <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white md:flex">
+              <li
+                className={`${pathname === "/" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/" target="_blank">
+                  Visit Site
+                </Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/dashboard">Dashboard</Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard/appointment" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/dashboard/appointment">Appointments</Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard/rooms" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/dashboard/rooms">Rooms</Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard/departments" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/dashboard/departments">Departments</Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard/holidays" ? "font-semibold text-accent" : "text-text-white"}`}
+              >
+                <Link href="/dashboard/holidays">Holidays</Link>
+              </li>
+              <li>
+                <button className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]">
+                  Logout
+                </button>
+              </li>
+            </ul>
+            <FaBars
+              size={25}
+              className="text-accent md:hidden"
+              onClick={() => setShouldSidebarOpen(true)}
+            />
+          </>
+        )}
       </nav>
 
       <div

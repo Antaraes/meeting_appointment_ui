@@ -1,14 +1,15 @@
 "use client";
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { comparePassCode } from "@/services/api";
 import { useParams, useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import AddAppointment from "@/components/Form/AppointmentForm";
+import UpadteAppointmentForm from "./UpdateAppointmentForm";
 
 interface PasscodeFormProps {
   event: any;
@@ -23,29 +24,70 @@ const schema = z.object({
 
 const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   const modalStatusStore = useModalStatusStore();
-
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
-  const { roomId } = useParams();
-  console.log(typeof roomId);
+  const appointment = event.appointmentData || event;
+  console.log(appointment);
+  const { roomId } = useParams() || appointment.room.id;
   const { register, handleSubmit, formState, trigger } = useForm<PasscodeForm>({
     resolver: zodResolver(schema),
   });
 
   const { mutate } = useMutation({
-    mutationFn: (data) =>
-      comparePassCode({ data, id: event.appointmentData.id }),
+    mutationFn: (data) => comparePassCode({ data, id: appointment.id }),
     onSuccess: () => {
-      modalStatusStore.setModal({
-        isOpen: true,
-        Modal: AddAppointment,
-      });
+      toast.success("Passcode correctly");
+      toast(
+        (t) => (
+          <div className="flex w-[200px] gap-4">
+            <button
+              onClick={() => {
+                modalStatusStore.setModal({
+                  isOpen: true,
+                  Modal: () => (
+                    <UpadteAppointmentForm event={event} password={password} />
+                  ),
+                });
 
-      toast.success("Authorized successfully into Appointment");
+                toast.dismiss(t.id);
+              }}
+              type="button"
+              className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                modalStatusStore.setModal({
+                  isOpen: true,
+                  Modal: AddAppointment,
+                });
+
+                toast.dismiss(t.id);
+              }}
+              className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
+            >
+              Extend
+            </button>
+          </div>
+        ),
+        {
+          style: {
+            borderRadius: "10px",
+            background: "transparent",
+          },
+        },
+      );
+    },
+    onError: async (error: any) => {
+      toast.error(error.response.data.message || "An error occurred");
     },
   });
 
   const onSubmit: SubmitHandler<PasscodeForm> = (data: PasscodeForm) => {
     console.log(data);
+    setPassword(data.code);
     mutate(data);
   };
 
@@ -60,12 +102,12 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
           type="text"
           {...register("code")}
           placeholder="code"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+          className="mx-auto mb-5 h-[50px] w-[80%] rounded-md px-2 shadow-md"
         />
         {formState.errors?.code && (
           <p className="mb-5 text-red-500">{formState.errors?.code.message}</p>
         )}
-        <div className="algn  flex items-center justify-between px-2">
+        <div className="algn  flex items-center  justify-between px-2 md:justify-around">
           <button
             onClick={modalStatusStore.setDefault}
             type="button"

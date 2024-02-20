@@ -1,9 +1,12 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
-type Header = {
-  id: number;
-  Title: string;
-};
+import { Box, useTheme } from "@mui/material";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { useAppointmentSlice } from "@/store/Appointment/zustand";
+import useFetch from "@/hooks/useFetch";
+import { getAllAppointment } from "@/services/api";
+import dayjs from "dayjs";
 
 type TableData = {
   id: number;
@@ -15,47 +18,43 @@ type TableData = {
 };
 
 interface TableComponentProps {
-  header: Header[];
+  header: GridColDef<TableData>[];
   tableData: TableData[];
+  isLoading: boolean;
 }
 
 const TableComponent: React.FC<TableComponentProps> = ({
-  header,
-  tableData,
+  header: columns,
+  tableData: appointments,
+  isLoading,
 }) => {
   return (
-    <div className="flex w-full lg:w-5/6 mx-auto  rounded-lg mt-2 mb-20">
-      <table className="table-auto w-full border p-1">
-        <thead className="bg-secondary text-text-white border-none">
-          <tr>
-            {header.map((item) => (
-              <th key={item.id} className="px-4 text-left py-2">
-                {item.Title}
-              </th>
-            ))}
-            <th className="px-4 text-left py-2"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((item, index) => (
-            <tr
-              key={item.id}
-              className={` break-words text-secondary/80 ${index % 2 == 0 && "bg-gray-200/50"}`}
-            >
-              <td className="px-4 py-2 ">{item.room}</td>
-              <td className="px-4 py-2 ">{item.date}</td>
-              <td className="px-4 py-2 ">{item.startTime}</td>
-              <td className="px-4 py-2 ">{item.endTime}</td>
-              <td className="px-4 py-2 ">{item.department}</td>
-              <td className="px-4 py-2 ">
-                <button className=" hover:text-secondary transition-all duration-300 ease-in-out">
-                  <FaEdit className=" " size={20} />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="mx-auto mb-20 mt-2 flex  w-full rounded-lg lg:w-5/6">
+      <Box height={"75vh"} width={"100%"}>
+        <DataGrid
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          loading={isLoading || !appointments}
+          getRowId={(row) => row.id}
+          rows={appointments || []}
+          columns={columns}
+          autoPageSize
+          initialState={{
+            ...appointments,
+            sorting: {
+              ...appointments,
+              sortModel: columns,
+            },
+          }}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
+        />
+      </Box>
     </div>
   );
 };

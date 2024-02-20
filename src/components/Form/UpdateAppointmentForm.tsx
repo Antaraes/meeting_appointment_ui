@@ -7,12 +7,18 @@ import { z } from "zod";
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
 import { useAppointmentMutation } from "@/hooks/useAppointment";
-import { createAppointment, getDepartment, getAllRooms } from "@/services/api";
+import {
+  createAppointment,
+  getDepartment,
+  getAllRooms,
+  updateAppointment,
+} from "@/services/api";
 import toast from "react-hot-toast";
 import { format } from "date-fns"; // Import format function from date-fns library
 import { enGB } from "date-fns/locale";
 import useFetch from "@/hooks/useFetch";
 import dayjs from "dayjs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface IFormInput {
   departmentId: string;
   roomId: string;
@@ -33,31 +39,49 @@ const getCurrentDate = () => {
 };
 
 const schema = z.object({
-  departmentId: z.string().min(1, { message: "Department must be selected." }),
-  roomId: z.string().min(1, { message: "Room must be selected." }),
-  staffId: z.string().min(1, { message: "Staff Id must be filled." }),
-  description: z.string().min(1, { message: "Description must be filled." }),
-  date: z.string().min(1, { message: "Date must be filled." }),
-  startTime: z.string().min(1, { message: "Start time must be filled." }),
-  endTime: z.string().min(1, { message: "End time must be filled." }),
-  code: z.string().min(1, { message: "Code must be filled." }),
+  departmentId: z.string(),
+  roomId: z.string(),
+  staffId: z.string(),
+  description: z.string(),
+  date: z.string(),
+  startTime: z.string(),
+  endTime: z.string(),
+  code: z.string(),
 });
 
-export default function AppointmentForm() {
+export default function UpadteAppointmentForm({
+  event,
+  password,
+}: {
+  event: any;
+  password: string;
+}) {
   const modalStatusStore = useModalStatusStore();
   const { data: department } = useFetch("department", getDepartment);
   const { data: room } = useFetch("room", getAllRooms);
-  console.log(room);
+  const queryClient = useQueryClient();
+
   const { register, handleSubmit, formState, trigger } = useForm<IFormInput>({
     resolver: zodResolver(schema),
   });
-  const mutation = useAppointmentMutation(createAppointment);
+  const mutation = useMutation({
+    mutationFn: (data) =>
+      updateAppointment({ data, id: event.appointmentData?.id || event.id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries("getAppointmentByRoomId");
+      toast.success("updated appointment");
+      modalStatusStore.setDefault();
+    },
+    onError: async (error: any) => {
+      toast.error(error.response.data.message || "An error occurred");
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     const formattedDate = data.date + "T00:00:00.000Z";
     const newData = { ...data, date: formattedDate };
-    console.log(newData);
-    mutation.mutate({ data: newData });
+
+    mutation.mutate(newData);
   };
 
   return (
@@ -74,21 +98,31 @@ export default function AppointmentForm() {
           >
             Cancel
           </button>
-          <h4 className="font-bold md:text-lg">New Appointment</h4>
+          <h4 className="font-bold md:text-lg">Update Appointment</h4>
           <button
             type="submit"
             className="rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
           >
-            Add
+            Edit
           </button>
         </div>
         <select
           {...register("departmentId")}
+          defaultValue={
+            event.appointmentData?.departmentId || event.department?.id
+          }
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md "
         >
           <option value="">Select Department</option>
           {department?.data.map((item) => (
-            <option key={item.id} value={item.id}>
+            <option
+              key={item.id}
+              value={item.id}
+              selected={
+                item.id === event.appointmentData?.departmentId ||
+                event.department.id
+              }
+            >
               {item.name}
             </option>
           ))}
@@ -100,6 +134,7 @@ export default function AppointmentForm() {
         )}
         <select
           {...register("roomId")}
+          defaultValue={event.appointmentData?.roomId || event.room.id}
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
@@ -117,6 +152,7 @@ export default function AppointmentForm() {
         <input
           {...register("staffId")}
           type="number"
+          defaultValue={event.appointmentData?.staffId || event.staffId}
           placeholder="Staff Id"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -127,6 +163,7 @@ export default function AppointmentForm() {
         )}
         <textarea
           {...register("description")}
+          defaultValue={event.appointmentData?.description || event.description}
           placeholder="Description"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
@@ -137,6 +174,9 @@ export default function AppointmentForm() {
         )}
         <input
           type="date"
+          defaultValue={dayjs(
+            new Date(event.appointmentData?.date || event.date),
+          ).format("YYYY-MM-DD")}
           {...register("date")}
           placeholder="Date"
           className="mb-5  h-[50px] w-full rounded-md px-2 shadow-md"
@@ -148,6 +188,7 @@ export default function AppointmentForm() {
         )}
         <input
           type="time"
+          defaultValue={event.appointmentData?.startTime || event.startTime}
           {...register("startTime", { required: true })}
           min="09:00"
           max="17:00"
@@ -163,6 +204,7 @@ export default function AppointmentForm() {
         )}
         <input
           type="time"
+          defaultValue={event.appointmentData?.endTime || event.endTime}
           {...register("endTime")}
           placeholder="End Time"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
@@ -173,8 +215,9 @@ export default function AppointmentForm() {
           </p>
         )}
         <input
-          type="text"
+          type="password"
           {...register("code")}
+          defaultValue={password}
           placeholder="code"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
