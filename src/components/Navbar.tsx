@@ -24,9 +24,6 @@ const Navbar = () => {
           <li
             className={`${pathname === "/" ? "text-accent" : "text-text-white"}`}
           >
-            <Link href="/" target="_blank">
-              Visit Site
-            </Link>
           </li>
           <li
             className={`${pathname === "/dashboard" ? "text-accent" : "text-text-white"}`}
@@ -47,6 +44,11 @@ const Navbar = () => {
             className={`${pathname === "/dashboard/departments" ? "text-accent" : "text-text-white"}`}
           >
             <Link href="/dashboard/departments">Departments</Link>
+          </li>
+          <li
+            className={`${pathname === "/dashboard/holidays" ? "text-accent" : "text-text-white"}`}
+          >
+            <Link href="/dashboard/holidays">Holidays</Link>
           </li>
           <li>
             <button className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]">

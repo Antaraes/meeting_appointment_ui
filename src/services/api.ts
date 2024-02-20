@@ -1,6 +1,7 @@
 import { Room } from "@/types/room";
 import API from "./interceptor";
 import { Department } from "@/types/department";
+import { HolidayData } from "@/types/holiday";
 
 //Appointments
 export const getAllAppointment = () => API.get("/appointment");
@@ -24,3 +25,7 @@ export const addRoom = (roomData: Room) => API.post("/room", roomData);
 export const updateRoom = (id: number, roomData: Room) =>
   API.patch(`room/${id}`, roomData);
 export const getRoomById = (id: number) => API.get(`/room/${id}`);
+
+//Holidays 
+export const getAllHolidays = () => API.get("/holiday");
+export const createHolidays = (holidayData: HolidayData) => API.post("/holiday", holidayData);
