@@ -39,14 +39,14 @@ const getCurrentDate = () => {
 };
 
 const schema = z.object({
-  departmentId: z.string(),
-  roomId: z.string(),
-  staffId: z.string(),
-  description: z.string(),
-  date: z.string(),
-  startTime: z.string(),
-  endTime: z.string(),
-  code: z.string(),
+  departmentId: z.string().optional(),
+  roomId: z.string().optional(),
+  staffId: z.string().optional(),
+  description: z.string().optional(),
+  date: z.string().optional(),
+  startTime: z.string().optional(),
+  endTime: z.string().optional(),
+  code: z.string().optional(),
 });
 
 export default function UpadteAppointmentForm({
@@ -79,7 +79,20 @@ export default function UpadteAppointmentForm({
 
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     const formattedDate = data.date + "T00:00:00.000Z";
-    const newData = { ...data, date: formattedDate };
+    const departmentToNumber = parseInt(data.departmentId, 10);
+
+    // Ensure roomId and staffId are valid numbers
+    const roomId = parseInt(data.roomId, 10);
+    const staffId = parseInt(data.staffId, 10);
+
+    const newData = {
+      ...data,
+      date: formattedDate,
+      roomId: roomId,
+      departmentId: departmentToNumber,
+      staffId: staffId,
+    };
+    console.log(newData);
 
     mutation.mutate(newData);
   };
@@ -120,7 +133,7 @@ export default function UpadteAppointmentForm({
               value={item.id}
               selected={
                 item.id === event.appointmentData?.departmentId ||
-                event.department.id
+                event.department?.id
               }
             >
               {item.name}
@@ -134,12 +147,18 @@ export default function UpadteAppointmentForm({
         )}
         <select
           {...register("roomId")}
-          defaultValue={event.appointmentData?.roomId || event.room.id}
+          defaultValue={event.appointmentData?.roomId || event.room?.id}
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
           {room?.data.map((item: any) => (
-            <option key={item.id} value={item.id}>
+            <option
+              key={item.id}
+              value={item.id}
+              selected={
+                item.id === event.appointmentData?.roomId || event.room?.id
+              }
+            >
               {item.name}
             </option>
           ))}
@@ -207,18 +226,6 @@ export default function UpadteAppointmentForm({
           defaultValue={event.appointmentData?.endTime || event.endTime}
           {...register("endTime")}
           placeholder="End Time"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
-        />
-        {formState.errors?.endTime && (
-          <p className="mb-5 text-red-500">
-            {formState.errors?.endTime.message}
-          </p>
-        )}
-        <input
-          type="password"
-          {...register("code")}
-          defaultValue={password}
-          placeholder="code"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         />
         {formState.errors?.endTime && (

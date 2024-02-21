@@ -8,7 +8,7 @@ import { Room } from "@/types/room";
 import React from "react";
 
 const Page = () => {
-  const { data, error, isLoading } = useFetch("room", getAllRooms);
+  const { data, error, isLoading } = useFetch("rooms", getAllRooms);
 
   const modalStatusStore = useModalStatusStore();
   return (

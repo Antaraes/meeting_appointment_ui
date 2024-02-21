@@ -11,7 +11,7 @@ import { Room } from "@/types/room";
 import React from "react";
 
 const Page = () => {
-  const { data, error, isLoading } = useFetch("department", getDepartment);
+  const { data, error, isLoading } = useFetch("departments", getDepartment);
 
   const modalStatusStore = useModalStatusStore();
   return (

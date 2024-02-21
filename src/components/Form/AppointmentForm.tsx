@@ -13,6 +13,7 @@ import { format } from "date-fns"; // Import format function from date-fns libra
 import { enGB } from "date-fns/locale";
 import useFetch from "@/hooks/useFetch";
 import dayjs from "dayjs";
+import { useParams } from "next/navigation";
 interface IFormInput {
   departmentId: string;
   roomId: string;
@@ -45,6 +46,9 @@ const schema = z.object({
 
 export default function AppointmentForm() {
   const modalStatusStore = useModalStatusStore();
+  const { roomId } = useParams();
+  const id = Array.isArray(roomId) ? roomId[0] : roomId;
+  const roomIdInt = parseInt(id, 10);
   const { data: department } = useFetch("department", getDepartment);
   const { data: room } = useFetch("room", getAllRooms);
   console.log(room);
@@ -100,11 +104,16 @@ export default function AppointmentForm() {
         )}
         <select
           {...register("roomId")}
+          defaultValue={roomIdInt}
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
         >
           <option value="">Select Room</option>
           {room?.data.map((item: any) => (
-            <option key={item.id} value={item.id}>
+            <option
+              key={item.id}
+              value={item.id}
+              selected={roomIdInt === item.id}
+            >
               {item.name}
             </option>
           ))}

@@ -32,6 +32,10 @@ const DepartmentForm: React.FC<{
   isCreating: boolean;
 }> = ({ department, isCreating }) => {
   const queryClient = useQueryClient();
+  const fun = isCreating
+    ? (data: ParamDepartment) => addDepartment(data)
+    : ({ id, data }: { id: number; data: ParamDepartment }) =>
+        updateDepartment(id, data);
 
   const modalStatusStore = useModalStatusStore();
   const { mutate, isPending } = useMutation({
@@ -68,6 +72,7 @@ const DepartmentForm: React.FC<{
       mutate({ ...formData });
       return;
     }
+
     mutate({
       id: department?.id,
       data: { ...formData },

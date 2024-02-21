@@ -36,7 +36,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
 }) => {
   const initialSortModel: GridSortItem[] = columns.map((col) => ({
     field: col.field,
-    sort: "asc", // or 'desc' depending on your requirement
+    sort: "desc", // or 'desc' depending on your requirement
   }));
   const initialState: GridInitialStateCommunity = {
     sorting: {
