@@ -29,7 +29,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomId, name, description }) => {
         href="/1"
         className="m-0 flex w-full items-center justify-between p-0 md:hidden"
       >
-        <h3 className="text-base font-bold">Room One</h3>
+        <h3 className="text-base font-bold">{name}</h3>
         <h3>
           <FaArrowRight />
         </h3>
