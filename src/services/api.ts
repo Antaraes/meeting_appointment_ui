@@ -12,10 +12,10 @@ export const getAppointmentByRoomID = (roomId: number) =>
 export const createAppointment = (data: any) => API.post("/appointment", data);
 export const comparePassCode = ({ data, id }: { data: any; id: number }) =>
   API.post(`/appointment/${id}`, data);
-export const updateAppointment = ({ data, id }) =>
+export const updateAppointment = ({ data, id }: { data: any; id: any }) =>
   API.patch(`/appointment/${id}`, data);
 export const getAppointmentsCount = () => API.get("/appointment/count");
-export const getAppointmentById = ({ id }) =>
+export const getAppointmentById = ({ id }: { id: any }) =>
   API.get(`/appointment/detail/${id}`);
 
 //Working Hours
@@ -44,9 +44,10 @@ export const updateRoom = (id: number, roomData: Room) =>
   API.patch(`room/${id}`, roomData);
 export const getRoomById = (id: number) => API.get(`/room/${id}`);
 
-//Holidays 
+//Holidays
 export const getAllHolidays = () => API.get("/holiday");
-export const createHolidays = (holidayData: HolidayData) => API.post("/holiday", holidayData);
+export const createHolidays = (holidayData: HolidayData) =>
+  API.post("/holiday", holidayData);
 
 //login
 export const auth = (data: login) => API.post("/auth/login", data);

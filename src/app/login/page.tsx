@@ -37,7 +37,7 @@ export default function Login() {
       const result = await mutation.mutateAsync(data as never);
       const token = result?.data?.data?.token;
       const user = result?.data?.data?.account;
-      localStorage.setItem("Appointment_auth", JSON.stringify({token , user} as any));
+      localStorage.setItem("admin", JSON.stringify({ token, user } as any));
       router.replace("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);

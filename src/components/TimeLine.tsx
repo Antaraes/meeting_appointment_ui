@@ -31,7 +31,7 @@ const TimeLine = () => {
   }, [daySelectedZ]);
 
   const events = appointmentByRoomId
-    ? appointmentByRoomId.data.map((appointment) => ({
+    ? appointmentByRoomId.data.map((appointment: any) => ({
         start: moment(
           dayjs(appointment.date).format(format) + "T" + appointment.startTime,
         ).toDate(),
@@ -42,7 +42,7 @@ const TimeLine = () => {
         appointmentData: appointment,
       }))
     : [];
-  const handleEventClick = (event) => {
+  const handleEventClick = (event: any) => {
     // Implement your logic to open the modal with the event data
     modalStatusStore.setModal({
       isOpen: true,

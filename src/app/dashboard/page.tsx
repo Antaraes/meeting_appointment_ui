@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 import toast from "react-hot-toast";
 
-const page = () => {
+const Page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
   console.log(fetchedCount);
   const { idZ, startTimeZ, endTimeZ, setDeleteData } = useWorkingHoursSlice();
@@ -217,4 +217,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

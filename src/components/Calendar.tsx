@@ -17,7 +17,7 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
   maxTime.setHours(17, 0, 0);
 
   // Function to determine if a date is a weekend or public holiday
-  const isDisabledDate = (date) => {
+  const isDisabledDate = (date: any) => {
     // Check if it's a weekend (Saturday or Sunday)
     if (date.getDay() === 0 || date.getDay() === 6) {
       return true;
