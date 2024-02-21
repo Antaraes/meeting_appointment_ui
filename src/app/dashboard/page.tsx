@@ -68,9 +68,6 @@ const Page = () => {
     }
   }, [fetchedCount]);
 
-  console.log("department-----", departmentPieChartData);
-  console.log("room-----", roomPieChartData);
-
   const {
     data: workingHoursData,
     error,
