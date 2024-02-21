@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import AddAppointment from "@/components/Form/AppointmentForm";
 import UpadteAppointmentForm from "./UpdateAppointmentForm";
+import ExtendForm from "./ExtendForm";
 
 interface PasscodeFormProps {
   event: any;
@@ -61,7 +62,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
               onClick={() => {
                 modalStatusStore.setModal({
                   isOpen: true,
-                  Modal: AddAppointment,
+                  Modal: () => <ExtendForm event={event} password={password} />,
                 });
 
                 toast.dismiss(t.id);
@@ -85,7 +86,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     },
   });
 
-  const onSubmit: SubmitHandler<PasscodeForm> = (data: PasscodeForm) => {
+  const onSubmit: SubmitHandler<PasscodeForm> = (data: any) => {
     console.log(data);
     setPassword(data.code);
     mutate(data);

@@ -43,9 +43,9 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
         isCreating ? "Room Created Successfully" : "Room Updated Successfully",
       );
       modalStatusStore.setDefault();
-      queryClient.refetchQueries("rooms");
+      queryClient.refetchQueries({ queryKey: ["rooms"] });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       if (error.response.status == 409) {
         toast.error("Room Already Exist");
         return;

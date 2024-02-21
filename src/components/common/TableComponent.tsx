@@ -2,11 +2,17 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Box, useTheme } from "@mui/material";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridSortItem,
+  GridToolbar,
+} from "@mui/x-data-grid";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
 import useFetch from "@/hooks/useFetch";
 import { getAllAppointment } from "@/services/api";
 import dayjs from "dayjs";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 type TableData = {
   id: number;
@@ -28,6 +34,15 @@ const TableComponent: React.FC<TableComponentProps> = ({
   tableData: appointments,
   isLoading,
 }) => {
+  const initialSortModel: GridSortItem[] = columns.map((col) => ({
+    field: col.field,
+    sort: "desc", // or 'desc' depending on your requirement
+  }));
+  const initialState: GridInitialStateCommunity = {
+    sorting: {
+      sortModel: initialSortModel,
+    },
+  };
   return (
     <div className="mx-auto mb-20 mt-2 flex  w-full rounded-lg lg:w-5/6">
       <Box height={"75vh"} width={"100%"}>
@@ -40,13 +55,7 @@ const TableComponent: React.FC<TableComponentProps> = ({
           rows={appointments || []}
           columns={columns}
           autoPageSize
-          initialState={{
-            ...appointments,
-            sorting: {
-              ...appointments,
-              sortModel: columns,
-            },
-          }}
+          initialState={initialState}
           slots={{ toolbar: GridToolbar }}
           slotProps={{
             toolbar: {
