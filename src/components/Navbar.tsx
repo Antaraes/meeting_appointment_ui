@@ -88,6 +88,13 @@ const Navbar = () => {
             />
             <ul className="mr-5 font-medium text-text-white">
               <li
+                className={`${pathname === "/" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
+                <Link href="/" target="_blank">
+                  Visit Site
+                </Link>
+              </li>
+              <li
                 className={`${pathname === "/dashboard" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
               >
                 <Link href="/dashboard">Dashboard</Link>
@@ -106,6 +113,11 @@ const Navbar = () => {
                 className={`${pathname === "/dashboard/departments" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
               >
                 <Link href="/dashboard/departments">Departments</Link>
+              </li>
+              <li
+                className={`${pathname === "/dashboard/holidays" ? "font-semibold text-accent" : "text-text-white"} mt-8`}
+              >
+                <Link href="/dashboard/holidays">Holidays</Link>
               </li>
             </ul>
           </div>
