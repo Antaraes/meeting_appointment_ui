@@ -6,27 +6,48 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react"; // Import useEffect and useState
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
+import useFetch from "@/hooks/useFetch";
+import { getAllWorkingHours } from "@/services/api";
+import Spinner from "./common/Spinner";
 
 const localizer = momentLocalizer(moment);
 
 export default function Calendar(props: Omit<CalendarProps, "localizer">) {
-  const minTime = new Date();
+  const { data: workingHours, isLoading } = useFetch(
+    "workingHours",
+    getAllWorkingHours,
+  );
+  let minTime = new Date();
   minTime.setHours(9, 0, 0);
 
-  const maxTime = new Date();
+  let maxTime = new Date();
   maxTime.setHours(17, 0, 0);
+  if (isLoading) {
+    return <Spinner lg />;
+  }
 
-  // Function to determine if a date is a weekend or public holiday
-  const isDisabledDate = (date: any) => {
-    // Check if it's a weekend (Saturday or Sunday)
-    if (date.getDay() === 0 || date.getDay() === 6) {
-      return true;
-    }
+  if (workingHours && workingHours.data.length > 0) {
+    workingHours.data.forEach((item: any) => {
+      if (item.isActive) {
+        minTime = new Date();
+        const startTimeParts = item.startTime.split(":");
+        minTime.setHours(
+          parseInt(startTimeParts[0]),
+          parseInt(startTimeParts[1]),
+          parseInt(startTimeParts[2]),
+        );
+        console.log(minTime);
 
-    // Add logic to check for public holidays here if needed
-
-    return false;
-  };
+        maxTime = new Date();
+        const endTimeParts = item.endTime.split(":");
+        maxTime.setHours(
+          parseInt(endTimeParts[0]),
+          parseInt(endTimeParts[1]),
+          parseInt(endTimeParts[2]),
+        );
+      }
+    });
+  }
 
   return (
     <BigCalendar {...props} localizer={localizer} max={maxTime} min={minTime} />

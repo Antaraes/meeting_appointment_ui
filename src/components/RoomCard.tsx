@@ -18,7 +18,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomId, name, description }) => {
 
         <p className="mt-3 text-center text-secondary/60">{description}</p>
         <Link
-           href={`${roomId}`}
+          href={`${roomId}`}
           className="mx-auto mt-3 block w-1/3 rounded-3xl bg-secondary p-2 text-center text-sm text-text-white hover:bg-[#1b294b]"
         >
           Schdule
@@ -26,7 +26,7 @@ const RoomCard: React.FC<RoomCardProps> = ({ roomId, name, description }) => {
       </div>
 
       <Link
-        href="/1"
+        href={`${roomId}`}
         className="m-0 flex w-full items-center justify-between p-0 md:hidden"
       >
         <h3 className="text-base font-bold">{name}</h3>

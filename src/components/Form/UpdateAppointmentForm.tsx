@@ -19,6 +19,7 @@ import { enGB } from "date-fns/locale";
 import useFetch from "@/hooks/useFetch";
 import dayjs from "dayjs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Spinner from "../common/Spinner";
 interface IFormInput {
   departmentId: string;
   roomId: string;
@@ -116,7 +117,7 @@ export default function UpadteAppointmentForm({
             type="submit"
             className="rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
           >
-            Edit
+            {mutation.isPending ? <Spinner sm /> : "Add"}
           </button>
         </div>
         <select
