@@ -6,6 +6,8 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { SCREEN_SIZE } from "@/constants/responsive";
 import TimeLine from "../TimeLine";
 import CalendarHeader from "./CalendarHeader";
+import { motion } from "framer-motion";
+import { headContainerAnimation, slideAnimation } from "../common/motion";
 export default function Sidebar() {
   const isMobile = useMediaQuery(SCREEN_SIZE);
   return (
@@ -13,13 +15,16 @@ export default function Sidebar() {
       {!isMobile ? (
         <>
           <div className="flex">
-            <div className="border p-5 w-1/3">
+            <motion.div
+              {...headContainerAnimation}
+              className="w-1/3 border p-5"
+            >
               <CreateAppointmentButton />
               <SmallCalendar />
-            </div>
-            <div className="w-full mt-5">
+            </motion.div>
+            <motion.div {...slideAnimation("right")} className="mt-5 w-full">
               <TimeLine />
-            </div>
+            </motion.div>
           </div>
         </>
       ) : (

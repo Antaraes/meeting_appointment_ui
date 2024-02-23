@@ -2,7 +2,8 @@
 
 import { useModalStatusStore } from "@/store/modalStatusStore";
 import React from "react";
-
+import { motion } from "framer-motion";
+import { slideAnimation } from "../common/motion";
 export default function Modal() {
   const modalStatusStore = useModalStatusStore();
   return (
@@ -12,12 +13,13 @@ export default function Modal() {
           onClick={() => modalStatusStore.setModal({ isOpen: false })}
           className="fixed left-0 top-0 z-0 flex h-screen w-screen items-center justify-center bg-gray-800/25"
         >
-          <div
+          <motion.div
+            {...slideAnimation("up")}
             onClick={(e: any) => e.stopPropagation()}
             className="z-50 w-[95%] rounded-md bg-gray-50 p-2 text-center sm:w-[80%] md:w-[50%] lg:w-[40%]"
           >
             <modalStatusStore.formModal.Modal />
-          </div>
+          </motion.div>
         </div>
       )}
     </>

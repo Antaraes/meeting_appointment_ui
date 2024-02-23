@@ -9,21 +9,20 @@ import { mdiChevronRight, mdiChevronLeft } from "@mdi/js";
 import { useAppointmentSlice } from "@/store/Appointment/zustand";
 import { useHolidayStore } from "@/store/holidayStore";
 
-export default function SmallCalendar({mode}: {mode: string}) {
+export default function SmallCalendar({ mode }: { mode?: string }) {
   const [currentMonthIdx, setCurrentMonthIdx] = useState(dayjs().month());
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const showToday = () => setMonthIndexZ(
+  const showToday = () =>
+    setMonthIndexZ(
       monthIndexZ === dayjs().month()
         ? monthIndexZ + Math.random()
-        : dayjs().month()
-    )
+        : dayjs().month(),
+    );
   useEffect(() => {
     setCurrentMonth(getMonth(currentMonthIdx));
   }, [currentMonthIdx]);
 
-  const {
-    setSelectedDate
-  } = useHolidayStore();
+  const { setSelectedDate } = useHolidayStore();
 
   const holidayStore = useHolidayStore();
 
@@ -63,12 +62,12 @@ export default function SmallCalendar({mode}: {mode: string}) {
       appointmentByRoomId.data.some((appointment: any) =>
         dayjs(appointment.date).startOf("day").isSame(currDay, "day"),
       );
-    
+
     let isHoliday = false;
-    if (mode === 'holiday') {
+    if (mode === "holiday") {
       isHoliday = holidayStore.selectedDates.some((date: any) => {
         return dayjs(date).startOf("day").isSame(currDay, "day");
-      })
+      });
     }
 
     if (currDay.isBefore(nowDay, "day")) {
@@ -81,9 +80,9 @@ export default function SmallCalendar({mode}: {mode: string}) {
       return "text-red-500";
     } else if (isWeekend) {
       return "text-gray-600 cursor-not-allowed";
-     } else if (isHoliday){
-       return "text-white bg-yellow-400 rounded-full font-bold"
-     }else {
+    } else if (isHoliday) {
+      return "text-white bg-yellow-400 rounded-full font-bold";
+    } else {
       return "text-white";
     }
   }
@@ -95,7 +94,12 @@ export default function SmallCalendar({mode}: {mode: string}) {
           {dayjs(new Date(dayjs().year(), currentMonthIdx)).format("MMMM YYYY")}
         </p>
         <div className="flex items-center justify-end">
-          <button onClick={showToday} className="hover:bg-green-500 border rounded-md border-green-500 hover:border-none text-green-500 hover:text-white text-xs font-semibold px-2 py-1 me-5">Today</button>
+          <button
+            onClick={showToday}
+            className="me-5 rounded-md border border-green-500 px-2 py-1 text-xs font-semibold text-green-500 hover:border-none hover:bg-green-500 hover:text-white"
+          >
+            Today
+          </button>
           <button onClick={() => setMonthIndexZ(monthIndexZ - 1)}>
             <span className="material-icons-outlined mx-2 cursor-pointer text-white">
               <Icon path={mdiChevronLeft} size={1} />
@@ -122,17 +126,16 @@ export default function SmallCalendar({mode}: {mode: string}) {
                 onClick={() => {
                   if (!getDayClass(day).includes("cursor-not-allowed")) {
                     setSmallCalendarMonthZ(currentMonthIdx);
-                    if (mode === 'holiday') {
-                      setSelectedDate(day)
-                      return
+                    if (mode === "holiday") {
+                      setSelectedDate(day);
+                      return;
                     }
-                      setDaySelectedZ(day)
-                      setWeek();
+                    setDaySelectedZ(day);
+                    setWeek();
                   }
                 }}
                 className={`w-full py-1 ${getDayClass(day)} `}
               >
-              
                 <span className="text-sm">{day.format("D")}</span>
               </button>
             ))}

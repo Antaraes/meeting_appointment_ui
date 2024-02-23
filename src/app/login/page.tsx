@@ -16,6 +16,13 @@ type FormData = {
   password: string;
 };
 
+interface LoginResponse {
+  data: {
+    token: string;
+    account: any; // Type of your account object
+  };
+}
+
 const schema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   password: z.string().min(1, { message: "Password is required" }),
