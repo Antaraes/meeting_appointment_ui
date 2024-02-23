@@ -16,13 +16,6 @@ type FormData = {
   password: string;
 };
 
-interface LoginResponse {
-  data: {
-    token: string;
-    account: any; // Type of your account object
-  };
-}
-
 const schema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   password: z.string().min(1, { message: "Password is required" }),
@@ -41,7 +34,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormData> = async (data: login) => {
     try {
-      const result = await mutation.mutateAsync(data as never);
+      const result: any = await mutation.mutateAsync(data as never);
       const token = result?.data?.data?.token;
       const user = result?.data?.data?.account;
       localStorage.setItem("admin", JSON.stringify({ token, user } as any));
