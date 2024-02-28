@@ -1,17 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
-const loginAdmin = localStorage.getItem("admin");
+let loginAdmin: string | null;
 
 const Navbar = () => {
   const [shouldSideBarOpen, setShouldSidebarOpen] = useState(false);
   const pathname = usePathname();
-  console.log(loginAdmin);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Check if window is defined (browser environment)
+      loginAdmin = localStorage.getItem("admin");
+    } else {
+      // Handle case where localStorage is not available (e.g., server-side rendering)
+      loginAdmin = null; // or any default value you want to use
+    }
+  }, []);
 
   return (
     <>
