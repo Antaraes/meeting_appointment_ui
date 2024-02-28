@@ -18,7 +18,7 @@ const ActiveWorkingHourConfirm = ({
     onSuccess: () => {
       toast.success("Successfully Activated");
       modalStatusStore.setDefault();
-      queryClient.refetchQueries("workingHours");
+      queryClient.refetchQueries({ queryKey: ["workingHours"] });
     },
     onError: (error) => {
       toast.error("Something went wrong");
