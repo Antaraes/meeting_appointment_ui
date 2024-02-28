@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Appointment/Context/GlobalContext.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Appointment/Context/GlobalContext.js", "src/components/Form/RoomForm.jsx"],
   "exclude": ["node_modules"]
 }
