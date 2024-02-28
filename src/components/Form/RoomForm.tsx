@@ -5,9 +5,15 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Room as ParamRoom } from "../../types/room";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  MutationFunction,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { addRoom, updateRoom } from "@/services/api";
 import toast from "react-hot-toast";
+import { AxiosResponse } from "axios";
+import Spinner from "../common/Spinner";
 
 type Room = {
   name: string;
@@ -34,43 +40,81 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
   const queryClient = useQueryClient();
 
   const modalStatusStore = useModalStatusStore();
-  const { mutate, isPending } = useMutation({
-    mutationFn: isCreating
-      ? (data: ParamRoom) => addRoom(data)
-      : ({ id, data }: { id: number; data: ParamRoom }) => updateRoom(id, data),
+  const addMutation = useMutation({
+    mutationFn: (data: ParamRoom) => addRoom(data),
     onSuccess: () => {
-      toast.success(
-        isCreating ? "Room Created Successfully" : "Room Updated Successfully",
-      );
+      toast.success("Room Created Successfully");
       modalStatusStore.setDefault();
       queryClient.refetchQueries({ queryKey: ["rooms"] });
     },
     onError: (error: any) => {
-      if (error.response.status == 409) {
+      if (error.response.status === 409) {
         toast.error("Room Already Exist");
-        return;
+      } else {
+        toast.error("Something went wrong");
       }
-
-      toast.error("Something went wrong");
     },
   });
+  const updateMutation = useMutation(
+    // ({ id, data }: { id: number; data: Room }) => updateRoom(id, data),
+    {
+      mutationFn: ({ id, data }: { id: number; data: Room }) =>
+        updateRoom(id, data),
+      onSuccess: () => {
+        toast.success("Room Updated Successfully");
+        modalStatusStore.setDefault();
+        queryClient.refetchQueries({ queryKey: ["rooms"] });
+      },
+      onError: () => {
+        toast.error("Something went wrong");
+      },
+    },
+  );
+  const onSubmit: SubmitHandler<Room> = (formData) => {
+    if (isCreating) {
+      addMutation.mutate(formData);
+    } else {
+      updateMutation.mutate({ id: room?.id ?? 0, data: formData });
+    }
+  };
+
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: isCreating
+  //     ? (data: ParamRoom) => addRoom(data)
+  //     : ({ id, data }: { id: number; data: ParamRoom }) => updateRoom(id, data),
+  //   onSuccess: () => {
+  //     toast.success(
+  //       isCreating ? "Room Created Successfully" : "Room Updated Successfully",
+  //     );
+  //     modalStatusStore.setDefault();
+  //     queryClient.refetchQueries({ queryKey: ["rooms"] });
+  //   },
+  //   onError: (error: any) => {
+  //     if (error.response.status == 409) {
+  //       toast.error("Room Already Exist");
+  //       return;
+  //     }
+
+  //     toast.error("Something went wrong");
+  //   },
+  // });
 
   const { register, handleSubmit, formState, getValues } = useForm<Room>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Room> = () => {
-    const formData = getValues();
-    if (isCreating) {
-      console.log("create");
-      mutate({ ...formData });
-      return;
-    }
-    mutate({
-      id: room?.id,
-      data: { ...formData },
-    });
-  };
+  // const onSubmit: SubmitHandler<Room> = () => {
+  //   const formData = getValues();
+  //   if (isCreating) {
+  //     console.log("create");
+  //     mutate({ ...formData });
+  //     return;
+  //   }
+  //   mutate({
+  //     id: room?.id,
+  //     data: { ...formData },
+  //   });
+  // };
 
   return (
     <form
@@ -128,10 +172,19 @@ const RoomForm: React.FC<{ room?: ParamRoom; isCreating: boolean }> = ({
         </button>
         <button
           type="submit"
-          disabled={isPending}
           className="rounded-2xl bg-accent  px-4 py-2 text-sm font-semibold text-text-white sm:text-base"
         >
-          {isCreating ? "Create" : "Update"}
+          {isCreating ? (
+            addMutation.isPending ? (
+              <Spinner sm />
+            ) : (
+              "Create"
+            )
+          ) : updateMutation.isPending ? (
+            <Spinner sm />
+          ) : (
+            "Update"
+          )}
         </button>
       </div>
     </form>

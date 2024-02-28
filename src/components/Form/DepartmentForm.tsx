@@ -8,6 +8,7 @@ import { Department as ParamDepartment } from "../../types/department";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addDepartment, updateDepartment } from "@/services/api";
 import toast from "react-hot-toast";
+import Spinner from "../common/Spinner";
 
 type Department = {
   name: string;
@@ -38,11 +39,30 @@ const DepartmentForm: React.FC<{
         updateDepartment(id, data);
 
   const modalStatusStore = useModalStatusStore();
-  const { mutate, isPending } = useMutation({
-    mutationFn: isCreating
-      ? (data: ParamDepartment) => addDepartment(data)
-      : ({ id, data }: { id: number; data: ParamDepartment }) =>
-          updateDepartment(id, data),
+  const addMutation = useMutation({
+    mutationFn: (data: ParamDepartment) => addDepartment(data),
+    onSuccess: () => {
+      toast.success(
+        isCreating
+          ? "Department Created Successfully"
+          : "Department Updated Successfully",
+      );
+      modalStatusStore.setDefault();
+      queryClient.refetchQueries({ queryKey: ["departments"] });
+    },
+    onError: (error: any) => {
+      if (error.response.status == 409) {
+        toast.error("Department Already Exist");
+        return;
+      }
+
+      toast.error("Something went wrong");
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: number; data: ParamDepartment }) =>
+      updateDepartment(id, data),
     onSuccess: () => {
       toast.success(
         isCreating
@@ -66,17 +86,12 @@ const DepartmentForm: React.FC<{
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Department> = () => {
-    const formData = getValues();
+  const onSubmit: SubmitHandler<Department> = (formData) => {
     if (isCreating) {
-      mutate({ ...formData });
-      return;
+      addMutation.mutate(formData);
+    } else {
+      updateMutation.mutate({ id: department?.id ?? 0, data: formData });
     }
-
-    mutate({
-      id: department?.id,
-      data: { ...formData },
-    });
   };
 
   return (
@@ -135,10 +150,19 @@ const DepartmentForm: React.FC<{
         </button>
         <button
           type="submit"
-          disabled={isPending}
           className="rounded-2xl bg-accent  px-4 py-2 text-sm font-semibold text-text-white sm:text-base"
         >
-          {isCreating ? "Create" : "Update"}
+          {isCreating ? (
+            addMutation.isPending ? (
+              <Spinner sm />
+            ) : (
+              "Create"
+            )
+          ) : updateMutation.isPending ? (
+            <Spinner sm />
+          ) : (
+            "Update"
+          )}
         </button>
       </div>
     </form>

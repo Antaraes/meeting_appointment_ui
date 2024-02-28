@@ -62,7 +62,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
               onClick={() => {
                 modalStatusStore.setModal({
                   isOpen: true,
-                  Modal: () => <ExtendForm event={event} password={password} />,
+                  Modal: () => <ExtendForm event={event} />,
                 });
 
                 toast.dismiss(t.id);
