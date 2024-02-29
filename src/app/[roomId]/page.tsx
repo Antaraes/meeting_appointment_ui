@@ -29,7 +29,6 @@ const Page: FC<pageProps> = ({}) => {
       setAppointmentRoomById(data);
     }
   }, [data]);
-  console.log("Appointment", data);
 
   if (isLoading) {
     return <h1>Loading</h1>;

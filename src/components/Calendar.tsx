@@ -36,7 +36,6 @@ export default function Calendar(props: Omit<CalendarProps, "localizer">) {
           parseInt(startTimeParts[1]),
           parseInt(startTimeParts[2]),
         );
-        console.log(minTime);
 
         maxTime = new Date();
         const endTimeParts = item.endTime.split(":");

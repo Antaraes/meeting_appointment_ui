@@ -83,7 +83,7 @@ const HomePageTable = () => {
     setIsSearchVisible((prevState) => !prevState);
   };
   const { data, isLoading } = useFetch("allAppointments", getAllAppointment);
-  console.log(data?.data);
+
   const [appointments, setAppointments] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 

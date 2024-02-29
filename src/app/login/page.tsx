@@ -6,10 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useLoginMutation } from "@/hooks/useLogin";
 import { auth } from "@/services/api";
+import { setCookie } from "cookies-next";
 import { login } from "@/types/login";
 // import { redirect } from "next/dist/server/api-utils";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/common/Spinner";
 
 type FormData = {
   username: string;
@@ -37,7 +39,8 @@ export default function Login() {
       const result: any = await mutation.mutateAsync(data as never);
       const token = result?.data?.data?.token;
       const user = result?.data?.data?.account;
-      localStorage.setItem("admin", JSON.stringify({ token, user } as any));
+      setCookie("admin", JSON.stringify({ token, user } as any));
+      // localStorage.setItem("admin", JSON.stringify({ token, user } as any));
       router.replace("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
@@ -82,9 +85,9 @@ export default function Login() {
           </button>
           <button
             type="submit"
-            className="h-[40px] w-[90px] rounded-lg bg-white hover:border-2 hover:border-green-300"
+            className="flex h-[40px] w-[90px] items-center justify-center rounded-lg bg-white text-center hover:border-2 hover:border-green-300"
           >
-            Login
+            {mutation.isPending ? <Spinner sm /> : "Login"}
           </button>
         </div>
       </form>

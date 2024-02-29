@@ -9,7 +9,7 @@ import React from "react";
 
 export default function Home() {
   const { data, error, isLoading } = useFetch("room", getAllRooms);
-  console.log("🚀 ~ Home ~ data:", data?.data[0]?.id, typeof data?.data[0]?.id);
+  // console.log("🚀 ~ Home ~ data:", data?.data[0]?.id, typeof data?.data[0]?.id);
 
   return (
     <div>

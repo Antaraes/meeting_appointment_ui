@@ -52,7 +52,7 @@ export default function AppointmentForm() {
   const roomIdInt = parseInt(id, 10);
   const { data: department } = useFetch("department", getDepartment);
   const { data: room } = useFetch("room", getAllRooms);
-  console.log(room);
+
   const { register, handleSubmit, formState, trigger } = useForm<IFormInput>({
     resolver: zodResolver(schema),
   });
@@ -61,7 +61,7 @@ export default function AppointmentForm() {
   const onSubmit: SubmitHandler<IFormInput> = (data: IFormInput) => {
     const formattedDate = data.date + "T00:00:00.000Z";
     const newData = { ...data, date: formattedDate };
-    console.log(newData);
+
     mutation.mutate({ data: newData });
   };
 

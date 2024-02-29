@@ -23,7 +23,6 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
   const { register, handleSubmit, formState } = useForm<ExtendForm>({
     resolver: zodResolver(schema),
   });
-  console.log(event);
 
   const { mutate } = useMutation({
     mutationFn: (data: any) =>
@@ -56,8 +55,6 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
     const newMinutes = totalMinutes % 60;
 
     const extendedEndTime = `${newHours.toString().padStart(2, "0")}:${newMinutes.toString().padStart(2, "0")}`;
-
-    console.log("extendedEndTime", extendedEndTime);
 
     const newData = {
       endTime: extendedEndTime,

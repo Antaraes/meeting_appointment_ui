@@ -18,7 +18,7 @@ const TimeLine = () => {
   const isMobile = useMediaQuery(SCREEN_SIZE);
   const [defaultDate, setDefaultDate] = useState(new Date());
   const modalStatusStore = useModalStatusStore();
-  console.log(daySelectedZ);
+
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
