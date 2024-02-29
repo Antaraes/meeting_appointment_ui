@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import toast from "react-hot-toast";
 import { useModalStatusStore } from "@/store/modalStatusStore";
+import Spinner from "./common/Spinner";
 
 const ActiveWorkingHourConfirm = ({
   workingHourId,
@@ -44,7 +45,7 @@ const ActiveWorkingHourConfirm = ({
           onClick={() => mutate(workingHourId)}
           className="rounded-md bg-green-600  p-2"
         >
-          Activate
+          {isPending ? <Spinner sm /> : "Activate"}
         </button>
       </div>
     </div>

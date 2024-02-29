@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import AddAppointment from "@/components/Form/AppointmentForm";
 import UpadteAppointmentForm from "./UpdateAppointmentForm";
 import ExtendForm from "./ExtendForm";
+import Spinner from "../common/Spinner";
 
 interface PasscodeFormProps {
   event: any;
@@ -34,7 +35,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
     resolver: zodResolver(schema),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data) => comparePassCode({ data, id: appointment.id }),
     onSuccess: () => {
       toast.success("Passcode correctly");
@@ -118,9 +119,9 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
 
           <button
             type="submit"
-            className="rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
+            className="flex items-center justify-center rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
           >
-            Confrim
+            {isPending ? <Spinner sm /> : "Confrim"}
           </button>
         </div>
       </form>
