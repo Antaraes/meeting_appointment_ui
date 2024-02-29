@@ -50,8 +50,6 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
                     <UpadteAppointmentForm event={event} password={password} />
                   ),
                 });
-
-                toast.dismiss(t.id);
               }}
               type="button"
               className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
@@ -65,8 +63,6 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
                   isOpen: true,
                   Modal: () => <ExtendForm event={event} />,
                 });
-
-                toast.dismiss(t.id);
               }}
               className="text-text-[#1b294b] mx-auto mt-3 block  w-full rounded-3xl bg-background p-2 text-center text-sm "
             >
