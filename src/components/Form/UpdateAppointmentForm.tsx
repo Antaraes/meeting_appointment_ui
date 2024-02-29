@@ -213,7 +213,7 @@ export default function UpadteAppointmentForm({
           max="17:00"
           step="600"
           placeholder="Start Time"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+          className="mx-4 mb-5 h-[50px] w-full rounded-md px-2 shadow-md md:mx-0"
         />
 
         {formState.errors?.startTime && (
@@ -224,6 +224,9 @@ export default function UpadteAppointmentForm({
         <input
           type="time"
           defaultValue={event.appointmentData?.endTime || event.endTime}
+          min="09:00"
+          max="17:00"
+          step="600"
           {...register("endTime")}
           placeholder="End Time"
           className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
