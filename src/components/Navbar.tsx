@@ -5,22 +5,43 @@ import Link from "next/link";
 import { FaBars } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
+import { deleteCookie, getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
+import Spinner from "./common/Spinner";
 
 let loginAdmin: string | null;
 
 const Navbar = () => {
   const [shouldSideBarOpen, setShouldSidebarOpen] = useState(false);
+  const [loginAdmin, setLoginAdmin] = useState<any>();
   const pathname = usePathname();
+  const router = useRouter();
+  const [logoutLoading, setLogoutLoading] = useState(false);
+  const admin = getCookie("admin");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Check if window is defined (browser environment)
-      loginAdmin = localStorage.getItem("admin");
-    } else {
-      // Handle case where localStorage is not available (e.g., server-side rendering)
-      loginAdmin = null; // or any default value you want to use
+    // if (typeof window !== "undefined") {
+    //   // Check if window is defined (browser environment)
+    //   loginAdmin = localStorage.getItem("admin");
+    // } else {
+    //   // Handle case where localStorage is not available (e.g., server-side rendering)
+    //   loginAdmin = null; // or any default value you want to use
+    // }
+    setLoginAdmin(admin);
+  }, [admin]);
+  const handleLogout = async () => {
+    try {
+      setLogoutLoading(true);
+      await deleteCookie("admin");
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setLogoutLoading(false);
     }
-  }, []);
+  };
+
+  console.log(loginAdmin);
 
   return (
     <>
@@ -31,7 +52,7 @@ const Navbar = () => {
         >
           ACE
         </Link>
-        {loginAdmin && (
+        {loginAdmin ? (
           <>
             <ul className="mr-5 hidden items-center gap-x-6 font-medium text-text-white md:flex">
               <li
@@ -67,8 +88,11 @@ const Navbar = () => {
                 <Link href="/dashboard/holidays">Holidays</Link>
               </li>
               <li>
-                <button className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]">
-                  Logout
+                <button
+                  className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]"
+                  onClick={handleLogout}
+                >
+                  {logoutLoading ? <Spinner sm /> : "Logout"}
                 </button>
               </li>
             </ul>
@@ -78,6 +102,12 @@ const Navbar = () => {
               onClick={() => setShouldSidebarOpen(true)}
             />
           </>
+        ) : (
+          <ul>
+            <li className=" rounded-3xl bg-accent p-2 font-bold text-text-white transition-all duration-300 ease-in-out hover:bg-[#05c780]">
+              <Link href="/login">Login</Link>
+            </li>
+          </ul>
         )}
       </nav>
 
@@ -130,8 +160,11 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <button className="w-3/5 rounded-3xl bg-accent p-2 text-sm font-bold text-text-white">
-            Logout
+          <button
+            onClick={handleLogout}
+            className="w-3/5 rounded-3xl bg-accent p-2 text-sm font-bold text-text-white"
+          >
+            {logoutLoading ? <Spinner sm /> : "Logout"}
           </button>
         </div>
       </div>
