@@ -51,6 +51,7 @@ export default function AppointmentForm() {
   const id = Array.isArray(roomId) ? roomId[0] : roomId;
   const roomIdInt = parseInt(id, 10);
   const { data: department } = useFetch("department", getDepartment);
+  const { daySelectedZ } = useAppointmentSlice();
   const { data: room } = useFetch("room", getAllRooms);
 
   const { register, handleSubmit, formState, trigger } = useForm<IFormInput>({
@@ -150,6 +151,7 @@ export default function AppointmentForm() {
           {...register("date")}
           placeholder="Date"
           className="mb-5  h-[50px] w-full rounded-md px-2 shadow-md"
+          defaultValue={dayjs(daySelectedZ).format("YYYY-MM-DD")}
           min={getCurrentDate()}
         />
 
@@ -163,7 +165,7 @@ export default function AppointmentForm() {
           max="17:00"
           step="600"
           placeholder="Start Time"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+          className="mx-4 mb-5 h-[50px] w-full rounded-md px-2 shadow-md md:mx-0"
         />
 
         {formState.errors?.startTime && (
@@ -173,9 +175,12 @@ export default function AppointmentForm() {
         )}
         <input
           type="time"
+          min="09:00"
+          max="17:00"
+          step="600"
           {...register("endTime")}
           placeholder="End Time"
-          className="mb-5 h-[50px] w-full rounded-md px-2 shadow-md"
+          className="mb-5  h-[50px] w-full rounded-md px-2 shadow-md "
         />
         {formState.errors?.endTime && (
           <p className="mb-5 text-red-500">

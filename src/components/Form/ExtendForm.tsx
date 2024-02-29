@@ -2,10 +2,11 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { updateAppointment } from "@/services/api";
+import { useModalStatusStore } from "@/store/modalStatusStore";
 
 interface ExtendFormProps {
   event: any;
@@ -23,12 +24,16 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
   const { register, handleSubmit, formState } = useForm<ExtendForm>({
     resolver: zodResolver(schema),
   });
+  const queryClient = useQueryClient();
+  const modalStatusStore = useModalStatusStore();
 
   const { mutate } = useMutation({
     mutationFn: (data: any) =>
       updateAppointment({ data, id: event.appointmentData?.id || event.id }),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getAppointmentByRoomId"] });
       toast.success("Extended successfully");
+      modalStatusStore.setDefault();
     },
     onError: async (error: any) => {
       toast.error(error.response.data.message || "An error occurred");
@@ -65,17 +70,29 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p>Current End Time: {event.endTime}</p>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-h-[500px] overflow-y-auto px-2 py-4 md:max-h-[400px]"
+      >
+        <p className="my-4 text-xl font-bold">
+          Current End Time: {event.appointmentData?.endTime || event.endTime}
+        </p>
+
         <input
           type="number"
           {...register("endTimeExtension")}
+          className="mx-auto mb-5 h-[50px] w-[80%] rounded-md px-2 shadow-md"
           placeholder="Enter extension in minutes"
         />
         {formState.errors?.endTimeExtension && (
           <p>{formState.errors?.endTimeExtension.message}</p>
         )}
-        <button type="submit">Extend End Time</button>
+        <button
+          type="submit"
+          className="mx-4 rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
+        >
+          Extend
+        </button>
       </form>
     </div>
   );
