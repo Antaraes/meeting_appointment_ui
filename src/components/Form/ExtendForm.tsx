@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { updateAppointment } from "@/services/api";
 import { useModalStatusStore } from "@/store/modalStatusStore";
+import Spinner from "../common/Spinner";
 
 interface ExtendFormProps {
   event: any;
@@ -27,7 +28,7 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
   const queryClient = useQueryClient();
   const modalStatusStore = useModalStatusStore();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: any) =>
       updateAppointment({ data, id: event.appointmentData?.id || event.id }),
     onSuccess: () => {
@@ -91,7 +92,7 @@ const ExtendForm: FC<ExtendFormProps> = ({ event }) => {
           type="submit"
           className="mx-4 rounded-md p-2 font-bold text-text-black md:bg-green-600 md:text-gray-50"
         >
-          Extend
+          {isPending ? <Spinner sm /> : "Extend"}
         </button>
       </form>
     </div>
