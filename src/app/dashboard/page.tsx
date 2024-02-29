@@ -21,7 +21,6 @@ import toast from "react-hot-toast";
 
 const Page = () => {
   const { data: fetchedCount } = useFetch("counts", getAppointmentsCount);
-  console.log(fetchedCount);
   const { idZ, startTimeZ, endTimeZ, setDeleteData } = useWorkingHoursSlice();
   const [data, setData] = useState({
     startTime: "",

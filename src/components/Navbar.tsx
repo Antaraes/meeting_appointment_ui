@@ -41,8 +41,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(loginAdmin);
-
   return (
     <>
       <nav className=" sticky top-0 z-10 mx-auto flex h-16 items-center justify-between bg-secondary  px-4 ">

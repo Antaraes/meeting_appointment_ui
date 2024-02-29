@@ -28,7 +28,7 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const appointment = event.appointmentData || event;
-  console.log(appointment);
+
   const { roomId } = useParams() || appointment.room.id;
   const { register, handleSubmit, formState, trigger } = useForm<PasscodeForm>({
     resolver: zodResolver(schema),
@@ -87,7 +87,6 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   });
 
   const onSubmit: SubmitHandler<PasscodeForm> = (data: any) => {
-    console.log(data);
     setPassword(data.code);
     mutate(data);
   };

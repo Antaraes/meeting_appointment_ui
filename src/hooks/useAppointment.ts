@@ -7,7 +7,6 @@ export const useAppointmentMutation = (mutationFn: any) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id?: number; data: any }) => {
-      console.log(id, data);
       if (id !== undefined) {
         return mutationFn(id, data);
       } else {

@@ -93,7 +93,6 @@ export default function UpadteAppointmentForm({
       departmentId: departmentToNumber,
       staffId: staffId,
     };
-    console.log(newData);
 
     mutation.mutate(newData);
   };

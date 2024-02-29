@@ -138,7 +138,6 @@ export default function SelectedHolidayList() {
                   </span>
                   <span
                     onClick={() => {
-                      console.log("In selected", date);
                       holidayStore.setSelectedDate(date);
                     }}
                   >
