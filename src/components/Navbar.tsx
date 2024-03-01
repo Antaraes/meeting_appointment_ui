@@ -48,7 +48,7 @@ const Navbar = () => {
           className=" font-signature link-underline ml-2 text-4xl  font-bold text-text-white"
           href="/"
         >
-          ACE
+          Company
         </Link>
         {loginAdmin ? (
           <>

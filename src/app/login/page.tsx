@@ -34,6 +34,10 @@ export default function Login() {
   const mutation = useLoginMutation(auth);
   const router = useRouter();
 
+  const onBack = () => {
+    router.push("/");
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data: login) => {
     try {
       const result: any = await mutation.mutateAsync(data as never);
@@ -78,6 +82,7 @@ export default function Login() {
         </div>
         <div className="mb-3 mt-5 flex w-full justify-between px-10">
           <button
+            onClick={onBack}
             type="button"
             className="h-[40px] w-[90px] rounded-lg bg-white hover:border-2 hover:border-green-300"
           >
