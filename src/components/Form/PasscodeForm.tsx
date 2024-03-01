@@ -38,7 +38,6 @@ const PasscodeForm: FC<PasscodeFormProps> = ({ event }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => comparePassCode({ data, id: appointment.id }),
     onSuccess: () => {
-      toast.success("Passcode correctly");
       toast(
         (t) => (
           <div className="flex w-[200px] gap-4">
