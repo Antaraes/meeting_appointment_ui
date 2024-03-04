@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "react-loading-skeleton/dist/skeleton.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Provider from "@/components/providers/Provider";
 import Navbar from "@/components/Navbar";

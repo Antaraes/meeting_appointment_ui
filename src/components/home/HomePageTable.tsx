@@ -158,7 +158,7 @@ const HomePageTable = () => {
           </AnimatePresence>
         </div>
 
-        <MobileHomeTable tableData={filteredAppointments} />
+        <MobileHomeTable tableData={filteredAppointments} loading={isLoading} />
       </div>
     </div>
   );
